@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 using Newtonsoft.Json;
 
-namespace Template.Web.Infrastructure
+namespace SunStorage.Web.Infrastructure
 {
     public class ModelStateToTempDataAttribute : ActionFilterAttribute
     {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Template.Services.Shared
+namespace SunStorage.Services.Shared
 {
     public class User
     {

@@ -1,6 +1,5 @@
-﻿using Template.Services.Shared;
-//using Template.Web.Hubs;
-using Template.Web.Infrastructure;
+﻿using SunStorage.Services.Shared;
+using SunStorage.Web.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,12 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
-using Template.Services;
-using Template.Web.SignalR.Hubs;
+using SunStorage.Services;
 using System.Globalization;
 using System.Linq;
 
-namespace Template.Web
+namespace SunStorage.Web
 {
     public class Startup
     {
@@ -33,9 +31,9 @@ namespace Template.Web
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddDbContext<TemplateDbContext>(options =>
+            services.AddDbContext<SunStorageDbContext>(options =>
             {
-                options.UseInMemoryDatabase(databaseName: "Template");
+                options.UseInMemoryDatabase(databaseName: "SunStorageDB");
             });
 
             // SERVICES FOR AUTHENTICATION
@@ -111,7 +109,7 @@ namespace Template.Web
             app.UseEndpoints(endpoints =>
             {
                 // ROUTING PER HUB
-                endpoints.MapHub<TemplateHub>("/templateHub");
+                //endpoints.MapHub<SunStorageHub>("/sunstorageHub");
 
                 endpoints.MapAreaControllerRoute("Example", "Example", "Example/{controller=Users}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Login}/{action=Login}");

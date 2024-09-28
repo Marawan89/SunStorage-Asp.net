@@ -1,6 +1,6 @@
-﻿using Template.Web.Infrastructure;
+﻿using SunStorage.Web.Infrastructure;
 
-namespace Template.Web.Areas
+namespace SunStorage.Web.Areas
 {
     public class IdentitaViewModel
     {

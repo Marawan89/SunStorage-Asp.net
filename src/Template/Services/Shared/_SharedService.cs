@@ -1,10 +1,10 @@
-﻿namespace Template.Services.Shared
+﻿namespace SunStorage.Services.Shared
 {
     public partial class SharedService
     {
-        TemplateDbContext _dbContext;
+        SunStorageDbContext _dbContext;
 
-        public SharedService(TemplateDbContext dbContext)
+        public SharedService(SunStorageDbContext dbContext)
         {
             _dbContext = dbContext;
         }

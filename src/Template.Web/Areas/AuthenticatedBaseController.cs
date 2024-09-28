@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Linq;
 using System.Security.Claims;
-using Template.Web.Infrastructure;
+using SunStorage.Web.Infrastructure;
 
-namespace Template.Web.Areas
+namespace SunStorage.Web.Areas
 {
     [Authorize]
     [Alerts]
-    [ModelStateToTempData]
+    //[ModelStateToSunStorage]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public partial class AuthenticatedBaseController : Controller
     {

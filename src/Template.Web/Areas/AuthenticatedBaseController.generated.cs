@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using R4Mvc;
 
-namespace Template.Web.Areas
+namespace SunStorage.Web.Areas
 {
     public partial class AuthenticatedBaseController
     {
@@ -115,7 +115,7 @@ namespace Template.Web.Areas
     }
 
     [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-    public partial class R4MVC_AuthenticatedBaseController : Template.Web.Areas.AuthenticatedBaseController
+    public partial class R4MVC_AuthenticatedBaseController : SunStorage.Web.Areas.AuthenticatedBaseController
     {
         public R4MVC_AuthenticatedBaseController(): base(Dummy.Instance)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Template.Infrastructure
+namespace SunStorage.Infrastructure
 {
     public class LoginException : Exception
     {

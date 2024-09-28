@@ -1,10 +1,10 @@
-﻿@inject IHtmlLocalizer<Template.Web.SharedResource> SharedLocalizer
+﻿@inject IHtmlLocalizer<SunStorage.Web.SharedResource> SharedLocalizer
 @inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
 @{
     Layout = "_LayoutHtml";
     var version = System.Reflection.Assembly.GetAssembly(typeof(Startup)).GetName().Version;
 
-    var identitaCorrente = (Template.Web.Areas.IdentitaViewModel)ViewData[Template.Web.Areas.IdentitaViewModel.VIEWDATA_IDENTITACORRENTE_KEY];
+    var identitaCorrente = (SunStorage.Web.Areas.IdentitaViewModel)ViewData[SunStorage.Web.Areas.IdentitaViewModel.VIEWDATA_IDENTITACORRENTE_KEY];
 }
 @section metas{
     @RenderSection("metas", false)
@@ -34,7 +34,6 @@
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Chiudi sessione di lavoro"]">
                                         <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Esci"]
                                     </a>
-                                    <form autocomplete="off" method="post" action="@Url.Action(MVC.Login.Logout())" id="POST_LogOut" display="none"></form>
                                 </div>
                             </li>
                         }

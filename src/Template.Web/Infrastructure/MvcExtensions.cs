@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Template.Web.Infrastructure
+namespace SunStorage.Web.Infrastructure
 {
     public static class MvcExtensions
     {

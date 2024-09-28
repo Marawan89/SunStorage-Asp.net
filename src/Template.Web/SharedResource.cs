@@ -1,4 +1,4 @@
-﻿namespace Template.Web
+﻿namespace SunStorage.Web
 {
     public class SharedResource
     {

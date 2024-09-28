@@ -1,8 +1,7 @@
-﻿using Template.Services.Shared;
+﻿using SunStorage.Services.Shared;
 using Microsoft.Extensions.DependencyInjection;
-using Template.Web.SignalR;
 
-namespace Template.Web
+namespace SunStorage.Web
 {
     public class Container
     {
@@ -12,7 +11,7 @@ namespace Template.Web
             container.AddScoped<SharedService>();
 
             // Registration of SignalR events
-            container.AddScoped<IPublishDomainEvents, SignalrPublishDomainEvents>();
+            //container.AddScoped<IPublishDomainEvents, SignalrPublishDomainEvents>();
         }
     }
 }

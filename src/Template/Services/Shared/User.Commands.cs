@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Template.Services.Shared
+namespace SunStorage.Services.Shared
 {
     public class AddOrUpdateUserCommand
     {
