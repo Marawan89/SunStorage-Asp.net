@@ -20,7 +20,9 @@ public static partial class MVC
 {
     static readonly R4Mvc.ExampleAreaClass s_Example = new R4Mvc.ExampleAreaClass();
     public static R4Mvc.ExampleAreaClass Example => s_Example;
-    public static readonly SunStorage.Web.Areas.AuthenticatedBaseController AuthenticatedBase = new SunStorage.Web.Areas.R4MVC_AuthenticatedBaseController();
+    public static readonly Template.Web.Areas.AuthenticatedBaseController AuthenticatedBase = new Template.Web.Areas.R4MVC_AuthenticatedBaseController();
+    public static readonly Template.Web.Features.Home.HomeController Home = new Template.Web.Features.Home.R4MVC_HomeController();
+    public static readonly Template.Web.Features.Login.LoginController Login = new Template.Web.Features.Login.R4MVC_LoginController();
     public static readonly R4Mvc.SharedController Shared = new R4Mvc.SharedController();
 }
 
@@ -70,6 +72,7 @@ namespace R4Mvc
     public partial class ExampleAreaClass
     {
         public readonly string Name = "Example";
+        public readonly Template.Web.Areas.Example.Users.UsersController Users = new Template.Web.Areas.Example.Users.R4MVC_UsersController();
     }
 }
 

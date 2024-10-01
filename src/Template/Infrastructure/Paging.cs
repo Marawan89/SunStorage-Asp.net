@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace SunStorage.Infrastructure
+namespace Template.Infrastructure
 {
     public class Paging
     {

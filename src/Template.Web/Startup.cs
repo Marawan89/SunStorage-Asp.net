@@ -1,5 +1,6 @@
-﻿using SunStorage.Services.Shared;
-using SunStorage.Web.Infrastructure;
+﻿using Template.Services.Shared;
+//using Template.Web.Hubs;
+using Template.Web.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,11 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Globalization;
 using System.IO;
+using Template.Services;
+using Template.Web.SignalR.Hubs;
+using System.Globalization;
 using System.Linq;
 
-namespace SunStorage.Web
+namespace Template.Web
 {
     public class Startup
     {
@@ -30,13 +33,12 @@ namespace SunStorage.Web
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            // Configura il DbContext per utilizzare un database in memoria
-            services.AddDbContext<SunStorageDbContext>(options =>
+            services.AddDbContext<TemplateDbContext>(options =>
             {
-                options.UseInMemoryDatabase("SunStorageDB");
+                options.UseInMemoryDatabase(databaseName: "Template");
             });
 
-            // Configurazione per autenticazione con cookie
+            // SERVICES FOR AUTHENTICATION
             services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
@@ -44,11 +46,10 @@ namespace SunStorage.Web
                 options.LogoutPath = "/Login/Logout";
             });
 
-            // Configurazione per MVC e localizzazione
             var builder = services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization(options =>
-                {
+                {                        // Enable loading SharedResource for ModelLocalizer
                     options.DataAnnotationLocalizerProvider = (type, factory) =>
                         factory.Create(typeof(SharedResource));
                 });
@@ -57,7 +58,6 @@ namespace SunStorage.Web
             builder.AddRazorRuntimeCompilation();
 #endif
 
-            // Configura il posizionamento delle View nelle directory personalizzate
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.AreaViewLocationFormats.Clear();
@@ -73,39 +73,46 @@ namespace SunStorage.Web
                 options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
             });
 
-            // Configura SignalR per pagine collaborative
+            // SIGNALR FOR COLLABORATIVE PAGES
             services.AddSignalR();
 
-            // Registrazione dei servizi custom nel container
+            // CONTAINER FOR ALL EXTRA CUSTOM SERVICES
             Container.RegisterTypes(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Configure the HTTP request pipeline.
             if (!env.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
+
+                // Https redirection only in production
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
 
+            // Localization support if you want to
             app.UseRequestLocalization(SupportedCultures.CultureNames);
 
             app.UseRouting();
+
+            // Adding authentication to pipeline
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Configura l'accesso ai file statici e directory custom
             var node_modules = new CompositePhysicalFileProvider(Directory.GetCurrentDirectory(), "node_modules");
             var areas = new CompositePhysicalFileProvider(Directory.GetCurrentDirectory(), "Areas");
             var compositeFp = new CustomCompositeFileProvider(env.WebRootFileProvider, node_modules, areas);
             env.WebRootFileProvider = compositeFp;
             app.UseStaticFiles();
 
-            // Configurazione delle route
             app.UseEndpoints(endpoints =>
             {
+                // ROUTING PER HUB
+                endpoints.MapHub<TemplateHub>("/templateHub");
+
                 endpoints.MapAreaControllerRoute("Example", "Example", "Example/{controller=Users}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Login}/{action=Login}");
             });
@@ -121,6 +128,8 @@ namespace SunStorage.Web
         {
             CultureNames = new[] { "it-it" };
             Cultures = CultureNames.Select(c => new CultureInfo(c)).ToArray();
+
+            //NB: attenzione nel progetto a settare correttamente <NeutralLanguage>it-IT</NeutralLanguage>
         }
     }
 }

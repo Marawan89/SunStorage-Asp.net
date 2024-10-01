@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace SunStorage.Web.Infrastructure
+namespace Template.Web.Infrastructure
 {
     public static class ToGravatarUrlExtension
     {

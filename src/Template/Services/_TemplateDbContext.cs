@@ -1,16 +1,16 @@
-﻿using SunStorage.Infrastructure;
+﻿using Template.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using SunStorage.Services.Shared;
+using Template.Services.Shared;
 
-namespace SunStorage.Services
+namespace Template.Services
 {
-    public class SunStorageDbContext : DbContext
+    public class TemplateDbContext : DbContext
     {
-        public SunStorageDbContext()
+        public TemplateDbContext()
         {
         }
 
-        public SunStorageDbContext(DbContextOptions<SunStorageDbContext> options) : base(options)
+        public TemplateDbContext(DbContextOptions<TemplateDbContext> options) : base(options)
         {
             DataGenerator.InitializeUsers(this);
         }

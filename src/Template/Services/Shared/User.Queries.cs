@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SunStorage.Infrastructure;
+using Template.Infrastructure;
 
-namespace SunStorage.Services.Shared
+namespace Template.Services.Shared
 {
     public class UsersSelectQuery
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SunStorage.Web.Infrastructure
+namespace Template.Web.Infrastructure
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum)]
     public sealed class TypeScriptModuleAttribute : Attribute

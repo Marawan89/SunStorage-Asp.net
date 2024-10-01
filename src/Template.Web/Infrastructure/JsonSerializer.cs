@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SunStorage.Web.Infrastructure
+namespace Template.Web.Infrastructure
 {
     public static class JsonSerializer
     {

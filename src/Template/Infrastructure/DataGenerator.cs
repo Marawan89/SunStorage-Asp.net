@@ -1,13 +1,13 @@
-﻿using SunStorage.Services.Shared;
+﻿using Template.Services.Shared;
 using System;
 using System.Linq;
-using SunStorage.Services;
+using Template.Services;
 
-namespace SunStorage.Infrastructure
+namespace Template.Infrastructure
 {
     public class DataGenerator
     {
-        public static void InitializeUsers(SunStorageDbContext context)
+        public static void InitializeUsers(TemplateDbContext context)
         {
             if (context.Users.Any())
             {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SunStorage.Infrastructure.AspNetCore
+namespace Template.Infrastructure.AspNetCore
 {
     public class SimplePropertyModelUnbinder : IModelUnbinder
     {

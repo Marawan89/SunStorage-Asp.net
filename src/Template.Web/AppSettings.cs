@@ -1,4 +1,4 @@
-﻿namespace SunStorage.Web
+﻿namespace Template.Web
 {
     public class AppSettings
     {

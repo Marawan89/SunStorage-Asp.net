@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 
-namespace SunStorage.Infrastructure.AspNetCore
+namespace Template.Infrastructure.AspNetCore
 {
     public static class HtmlInputExtension
     {
