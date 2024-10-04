@@ -1,5 +1,5 @@
 ﻿@page
-@model Template.Web.Areas.Devices.DevicesViewModel
+@model Template.Web.Areas.Admin.Users.IndexViewModel
 
 @{
     ViewData["Title"] = "Device Management";
@@ -15,13 +15,12 @@
             <div class="filtering">
                 <div class="d-flex mb-3">
                     <form method="get">
-                        <input 
-                            class="form-control me-2" 
-                            type="search" 
-                            placeholder="Search for a Serial Number" 
-                            name="searchTerm"
-                            value="@Model.SearchTerm"
-                            oninput="this.form.submit()" />
+                        <input class="form-control me-2"
+                               type="search"
+                               placeholder="Search for a Serial Number"
+                               name="searchTerm"
+                               value="@Model.SearchTerm"
+                               oninput="this.form.submit()" />
                     </form>
                 </div>
 
@@ -35,7 +34,7 @@
                                 {
                                     foreach (var deviceType in Model.DeviceTypes)
                                     {
-                                                <option value="@deviceType" selected="@(deviceType == Model.DeviceTypeFilter)">@deviceType</option>
+                                        <option value="@deviceType" selected="@(deviceType == Model.DeviceTypeFilter)">@deviceType</option>
                                     }
                                 }
                             </select>
@@ -46,7 +45,7 @@
                                 <option value="">Device Status...</option>
                                 @foreach (var status in Model.AllDevices.Select(d => d.Status).Distinct())
                                 {
-                                        <option value="@status" selected="@(status == Model.DeviceStatusFilter)">@status</option>
+                                    <option value="@status" selected="@(status == Model.DeviceStatusFilter)">@status</option>
                                 }
                             </select>
                         </div>
@@ -78,23 +77,23 @@
                         {
                             foreach (var device in Model.CurrentDevices)
                             {
-                                        <tr>
-                                            <td>@device.SerialNumber</td>
-                                            <td>@device.DeviceTypeName</td>
-                                            <td>@device.WarrantyStatus</td>
-                                            <td>@device.Status</td>
-                                            <td>
-                                                <a href="/devices/@device.Id/show" class="btn btn-outline-warning">View</a>
-                                                <a href="/devices/@device.Id/edit" class="btn btn-outline-info">Edit</a>
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td>@device.SerialNumber</td>
+                                    <td>@device.DeviceTypeName</td>
+                                    <td>@device.WarrantyStatus</td>
+                                    <td>@device.Status</td>
+                                    <td>
+                                        <a href="/devices/@device.Id/show" class="btn btn-outline-warning">View</a>
+                                        <a href="/devices/@device.Id/edit" class="btn btn-outline-info">Edit</a>
+                                    </td>
+                                </tr>
                             }
                         }
                         else
                         {
-                                <tr>
-                                    <td colspan="5">No devices found</td>
-                                </tr>
+                            <tr>
+                                <td colspan="5">No devices found</td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -108,9 +107,9 @@
 
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
-                            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
-                                <a class="page-link" href="?page=@i">@i</a>
-                            </li>
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="?page=@i">@i</a>
+                        </li>
                     }
 
                     <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">

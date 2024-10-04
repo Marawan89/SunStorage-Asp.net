@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Template.Web.Areas.Devices; // Assicurati che questo spazio dei nomi corrisponda alla tua struttura del progetto
+using System.Threading.Tasks;
+using Template.Services.Shared;
 
-namespace Template.Web.Areas.Devices
+namespace Template.Web.Areas.Admin.Users
 {
-    [Area("Devices")] // Specifica che questo controller appartiene all'area Devices
-    public class DevicesController : Controller
+    [Area("Admin")]
+    public partial class UsersController : Controller
     {
         // Simulazione di un metodo che recupera i dispositivi da un database
         private List<DeviceViewModel> LoadDevices()
         {
-            // Qui dovresti implementare il caricamento dei dati dal tuo database.
-            // Questo è solo un esempio statico.
+            // Caricamento statico per esempio
             return new List<DeviceViewModel>
             {
                 new DeviceViewModel
@@ -47,103 +47,115 @@ namespace Template.Web.Areas.Devices
                         StartDate = DateTime.Now.AddYears(-2),
                         EndDate = DateTime.Now.AddYears(-1)
                     }
-                },
-                // Aggiungi altri dispositivi qui...
+                }
             };
         }
 
-        public IActionResult Index(int page = 1, string searchTerm = "", string deviceTypeFilter = "", string deviceStatusFilter = "", string deviceWarrantyFilter = "")
+        // Azione Index per dispositivi
+        public virtual IActionResult Index(int page = 1, string searchTerm = "", string deviceTypeFilter = "", string deviceStatusFilter = "", string deviceWarrantyFilter = "")
         {
-            // Carica tutti i dispositivi
-            var model = new DevicesViewModel
+            var model = new IndexViewModel
             {
-                AllDevices = LoadDevices()
+                AllDevices = LoadDevices(),
+                SearchTerm = searchTerm,
+                DeviceTypeFilter = deviceTypeFilter,
+                DeviceStatusFilter = deviceStatusFilter,
+                DeviceWarrantyFilter = deviceWarrantyFilter
             };
 
-            // Imposta i filtri
-            model.SearchTerm = searchTerm;
-            model.DeviceTypeFilter = deviceTypeFilter;
-            model.DeviceStatusFilter = deviceStatusFilter;
-            model.DeviceWarrantyFilter = deviceWarrantyFilter;
-
-            // Applica i filtri
             model.ApplyFilters();
-
-            // Imposta la paginazione
             model.CurrentPage = page;
+            model.FilteredDevices = model.FilteredDevices.Skip((page - 1) * model.DevicesPerPage).Take(model.DevicesPerPage).ToList();
 
-            // Restituisce la vista con il modello
             return View(model);
         }
 
-        // Metodo per la creazione di un nuovo dispositivo (da implementare)
-        public IActionResult Create()
+        [HttpGet]
+        public virtual IActionResult Index(IndexViewModel model)
         {
-            // Qui puoi restituire una vista per creare un nuovo dispositivo
+            return View(model);
+        }
+
+        // Azioni CRUD per dispositivi
+        public virtual IActionResult CreateDevice()
+        {
             return View();
         }
 
-        // Metodo per gestire la creazione di un nuovo dispositivo (POST)
         [HttpPost]
-        public IActionResult Create(DeviceViewModel deviceViewModel)
+        public virtual IActionResult CreateDevice(IndexViewModel indexViewModel)
         {
             if (ModelState.IsValid)
             {
-                // Qui dovresti implementare la logica per salvare il nuovo dispositivo nel database
-
-                // Redirect alla pagina Index dopo aver creato il dispositivo
                 return RedirectToAction("Index");
             }
-
-            // Se il modello non è valido, restituisci la vista di creazione
-            return View(deviceViewModel);
+            return View(indexViewModel);
         }
 
-        // Metodo per visualizzare un dispositivo specifico
-        public IActionResult Show(int id)
+        public virtual IActionResult ShowDevice(int id)
         {
             var device = LoadDevices().FirstOrDefault(d => d.Id == id);
             if (device == null)
             {
                 return NotFound();
             }
-
             return View(device);
         }
 
-        // Metodo per modificare un dispositivo (da implementare)
-        public IActionResult Edit(int id)
+        public virtual IActionResult EditDevice(int id)
         {
             var device = LoadDevices().FirstOrDefault(d => d.Id == id);
             if (device == null)
             {
                 return NotFound();
             }
-
             return View(device);
         }
 
-        // Metodo per gestire la modifica di un dispositivo (POST)
         [HttpPost]
-        public IActionResult Edit(DeviceViewModel deviceViewModel)
+        public virtual IActionResult EditDevice(IndexViewModel indexViewModel)
         {
             if (ModelState.IsValid)
             {
-                // Qui dovresti implementare la logica per aggiornare il dispositivo nel database
-
-                // Redirect alla pagina Index dopo aver modificato il dispositivo
                 return RedirectToAction("Index");
             }
-
-            // Se il modello non è valido, restituisci la vista di modifica
-            return View(deviceViewModel);
+            return View(indexViewModel);
         }
 
-        // Metodo per eliminare un dispositivo (da implementare)
-        public IActionResult Delete(int id)
+        public virtual IActionResult DeleteDevice(int id)
         {
-            // Qui dovresti implementare la logica per eliminare il dispositivo dal database
             return RedirectToAction("Index");
+        }
+
+        // Azioni per utenti
+
+        public virtual IActionResult IndexUsers()
+        {
+            return View();
+        }
+
+        public virtual IActionResult DetailsUser(int id)
+        {
+            // Codice per mostrare i dettagli dell'utente con id specifico
+            return View();
+        }
+
+        public virtual IActionResult CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public virtual IActionResult EditUser(int id)
+        {
+            return View();
+        }
+
+        // Metodo Delete per utenti
+        public virtual IActionResult DeleteUser(int id)
+        {
+            // Codice per eliminare un utente con id specifico
+            return RedirectToAction("IndexUsers");
         }
     }
 }

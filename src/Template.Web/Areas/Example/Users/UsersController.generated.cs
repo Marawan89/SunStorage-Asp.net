@@ -127,6 +127,46 @@ namespace Template.Web.Areas.Example.Users
             public const string Delete = "Delete";
         }
 
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_Index s_IndexParams = new ActionParamsClass_Index();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Index IndexParams => s_IndexParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Index
+        {
+            public readonly string model = "model";
+        }
+
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_Edit s_EditParams = new ActionParamsClass_Edit();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Edit EditParams => s_EditParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Edit
+        {
+            public readonly string id = "id";
+        }
+
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_Edit s_EditParams = new ActionParamsClass_Edit();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Edit EditParams => s_EditParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Edit
+        {
+            public readonly string model = "model";
+        }
+
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_Delete s_DeleteParams = new ActionParamsClass_Delete();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Delete DeleteParams => s_DeleteParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Delete
+        {
+            public readonly string id = "id";
+        }
+
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ViewsClass
         {

@@ -110,12 +110,18 @@ namespace Template.Web
 
             app.UseEndpoints(endpoints =>
             {
-                // ROUTING PER HUB
-                endpoints.MapHub<TemplateHub>("/templateHub");
+                // Mappa il routing per le aree (incluso "Devices")
+                endpoints.MapAreaControllerRoute(
+                    name: "Devices",
+                    areaName: "Devices",
+                    pattern: "Devices/{controller=Devices}/{action=Index}/{id?}");
 
-                endpoints.MapAreaControllerRoute("Example", "Example", "Example/{controller=Users}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("default", "{controller=Login}/{action=Login}");
+                // Altri endpoint di routing...
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
             });
+
         }
     }
 

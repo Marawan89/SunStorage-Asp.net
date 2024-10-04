@@ -107,6 +107,16 @@ namespace Template.Web.Features.Home
             public const string ChangeLanguageTo = "ChangeLanguageTo";
         }
 
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_ChangeLanguageTo s_ChangeLanguageToParams = new ActionParamsClass_ChangeLanguageTo();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ChangeLanguageTo ChangeLanguageToParams => s_ChangeLanguageToParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ChangeLanguageTo
+        {
+            public readonly string cultureName = "cultureName";
+        }
+
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ViewsClass
         {

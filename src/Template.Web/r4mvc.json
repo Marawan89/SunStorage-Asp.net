@@ -8,15 +8,24 @@
   "SplitIntoMultipleFiles": true,
   "SplitViewOnlyPagesIntoMultipleFiles": true,
   "StaticFilesPath": "wwwroot",
-  "ExcludedStaticFileExtensions": null,
+  "ExcludedStaticFileExtensions": [
+    ".css",
+    ".js",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".svg",
+    ".ico"
+  ],
   "ReferencedNamespaces": null,
   "PragmaCodes": null,
-  "GenerateParamsForActionMethods": false,
+  "GenerateParamsForActionMethods": true,
   "ParamsPropertySuffix": "Params",
   "FeatureFolders": {
-    "Enabled": false,
+    "Enabled": true,
     "FeaturesPath": "Features",
-    "StaticFileAccess": false,
+    "StaticFileAccess": true,
     "FeatureOnlyAreas": null
   }
 }

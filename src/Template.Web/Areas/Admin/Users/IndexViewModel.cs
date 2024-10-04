@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Template.Web.Areas.Devices
+namespace Template.Web.Areas.Admin.Users
 {
     public class DeviceViewModel
     {
@@ -17,7 +17,7 @@ namespace Template.Web.Areas.Devices
         public DeviceWarranty DeviceWarranty { get; set; }
     }
 
-    public class DevicesViewModel
+    public class IndexViewModel
     {
         public List<DeviceViewModel> AllDevices { get; set; } = new List<DeviceViewModel>();
         public List<DeviceViewModel> FilteredDevices { get; set; } = new List<DeviceViewModel>();

@@ -109,6 +109,26 @@ namespace Template.Web.Features.Login
             public const string Logout = "Logout";
         }
 
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_Login s_LoginParams = new ActionParamsClass_Login();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Login LoginParams => s_LoginParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Login
+        {
+            public readonly string returnUrl = "returnUrl";
+        }
+
+        [GeneratedCode("R4Mvc", "1.0")]
+        static readonly ActionParamsClass_Login s_LoginParams = new ActionParamsClass_Login();
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Login LoginParams => s_LoginParams;
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Login
+        {
+            public readonly string model = "model";
+        }
+
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ViewsClass
         {
@@ -116,7 +136,10 @@ namespace Template.Web.Features.Login
             public _ViewNamesClass ViewNames => s_ViewNames;
             public class _ViewNamesClass
             {
+                public readonly string Login = "Login";
             }
+
+            public readonly string Login = "~/Features/Login/Login.cshtml";
         }
 
         [GeneratedCode("R4Mvc", "1.0")]
