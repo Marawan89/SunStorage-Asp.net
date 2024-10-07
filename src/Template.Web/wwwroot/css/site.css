@@ -193,6 +193,12 @@
   }
 }
 
+.bg-content {
+    background-color: #fbdd01;
+    border-radius: 30px;
+}
+
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -201,7 +207,7 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: black;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -346,7 +352,7 @@ sup {
   top: -0.5em;
 }
 
-a {
+/*a {
   color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
   text-decoration: underline;
 }
@@ -357,7 +363,7 @@ a:hover {
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
   color: inherit;
   text-decoration: none;
-}
+}*/
 
 pre,
 code,

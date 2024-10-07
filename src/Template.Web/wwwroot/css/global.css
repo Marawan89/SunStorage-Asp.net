@@ -1,0 +1,25 @@
+﻿@import "site.variables.scss";
+
+// Import bootstrap to be able to customize it with scss variables
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+@import "site.layout.scss";
+
+.bg-content {
+    background-color: #fbdd01;
+    border-radius: 30px;
+}
+
+.logo {
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+    color: #fbdd01;
+    text-decoration: none;
+}
+
+.logo span {
+    font-weight: 100;
+    color: white;
+}
+
