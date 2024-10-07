@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
 
 namespace Template.Infrastructure
 {
@@ -10,7 +9,13 @@ namespace Template.Infrastructure
         public int PageSize { get; set; }
         public string OrderBy { get; set; }
         public bool OrderByDescending { get; set; }
+
+        /// <summary>
+        /// Se non è necessario avere nel dettaglio il numero di elementi totali è possiile richidere un ulteriore elemento per verificare se attivare la paginazione alla pagina successiva
+        /// Viceversa, se non si è alla prima pagina è necessario attivare la paginazione alla pagina precedente
+        /// </summary>
         public bool OneMoreItem { get; set; }
+
         public Paging()
         {
             Page = 1;
@@ -20,25 +25,31 @@ namespace Template.Infrastructure
 
     public static class DocumentQueryPagingExtension
     {
+        /// <summary>
+        /// Applies both paging and ordering
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="paging"></param>
+        /// <returns></returns>
         public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, Paging paging)
         {
-            if (paging == null || string.IsNullOrWhiteSpace(paging.OrderBy))
+            if (paging == null || string.IsNullOrWhiteSpace(paging.OrderBy) == true)
             {
                 return query;
             }
             else
             {
-                // Utilizzo di DynamicQueryableExtensions per l'ordinamento dinamico
                 if (paging.OrderByDescending)
                 {
-                    query = DynamicQueryableExtensions.OrderBy(query, paging.OrderBy + " DESC");
+                    query = query.OrderBy(paging.OrderBy + " DESC");
                 }
                 else
                 {
-                    query = DynamicQueryableExtensions.OrderBy(query, paging.OrderBy);
+                    query = query.OrderBy(paging.OrderBy);
                 }
 
-                if (paging.OneMoreItem)
+                if (paging.OneMoreItem == true)
                 {
                     return query.Skip((paging.Page - 1) * paging.PageSize).Take(paging.PageSize + 1);
                 }
@@ -49,22 +60,28 @@ namespace Template.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Applies only ordering
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="paging"></param>
+        /// <returns></returns>
         public static IQueryable<T> ApplyOrder<T>(this IQueryable<T> query, Paging paging)
         {
-            if (paging == null || string.IsNullOrWhiteSpace(paging.OrderBy))
+            if (paging == null || string.IsNullOrWhiteSpace(paging.OrderBy) == true)
             {
                 return query;
             }
             else
             {
-                // Utilizzo di DynamicQueryableExtensions per l'ordinamento dinamico
                 if (paging.OrderByDescending)
                 {
-                    return DynamicQueryableExtensions.OrderBy(query, paging.OrderBy + " DESC");
+                    return query.OrderBy(paging.OrderBy + " DESC");
                 }
                 else
                 {
-                    return DynamicQueryableExtensions.OrderBy(query, paging.OrderBy);
+                    return query.OrderBy(paging.OrderBy);
                 }
             }
         }

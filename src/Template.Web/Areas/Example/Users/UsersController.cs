@@ -38,7 +38,7 @@ namespace Template.Web.Areas.Example.Users
         [HttpGet]
         public virtual IActionResult New()
         {
-            return RedirectToAction(nameof(Edit));
+            return RedirectToAction(Actions.Edit());
         }
 
         [HttpGet]
@@ -48,8 +48,13 @@ namespace Template.Web.Areas.Example.Users
 
             if (id.HasValue)
             {
-                model.SetUser(await _sharedService.Query(new UserDetailQuery { Id = id.Value }));
+                model.SetUser(await _sharedService.Query(new UserDetailQuery
+                {
+                    Id = id.Value,
+                }));
             }
+
+
 
             return View(model);
         }
@@ -79,23 +84,22 @@ namespace Template.Web.Areas.Example.Users
                 }
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
                 Alerts.AddError(this, "Errore in aggiornamento");
             }
 
-            return RedirectToAction(nameof(Edit), new { id = model.Id });
+            return RedirectToAction(Actions.Edit(model.Id));
         }
 
         [HttpPost]
         public virtual async Task<IActionResult> Delete(Guid id)
         {
-            // Logica per eliminare l'utente
-            await _sharedService.Handle(new DeleteUserCommand { Id = id });
+            // Query to delete user
 
             Alerts.AddSuccess(this, "Utente cancellato");
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(Actions.Index());
         }
     }
 }
- 

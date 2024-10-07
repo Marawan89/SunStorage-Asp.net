@@ -20,13 +20,12 @@ public static partial class MVC
 {
     static readonly R4Mvc.AdminAreaClass s_Admin = new R4Mvc.AdminAreaClass();
     public static R4Mvc.AdminAreaClass Admin => s_Admin;
-    static readonly R4Mvc.Admin_FullAreaClass s_Admin_Full = new R4Mvc.Admin_FullAreaClass();
-    public static R4Mvc.Admin_FullAreaClass Admin_Full => s_Admin_Full;
     static readonly R4Mvc.ExampleAreaClass s_Example = new R4Mvc.ExampleAreaClass();
     public static R4Mvc.ExampleAreaClass Example => s_Example;
     public static readonly Template.Web.Areas.AuthenticatedBaseController AuthenticatedBase = new Template.Web.Areas.R4MVC_AuthenticatedBaseController();
     public static readonly Template.Web.Features.Home.HomeController Home = new Template.Web.Features.Home.R4MVC_HomeController();
     public static readonly Template.Web.Features.Login.LoginController Login = new Template.Web.Features.Login.R4MVC_LoginController();
+    public static readonly Template.Web.Areas.AdminFull.Users.UsersController Users = new Template.Web.Areas.AdminFull.Users.R4MVC_UsersController();
     public static readonly R4Mvc.SharedController Shared = new R4Mvc.SharedController();
 }
 
@@ -80,13 +79,6 @@ namespace R4Mvc
     }
 
     [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-    public partial class Admin_FullAreaClass
-    {
-        public readonly string Name = "Admin_Full";
-        public readonly Template.Web.Areas.Admin_Full.Users.UsersController Users = new Template.Web.Areas.Admin_Full.Users.R4MVC_UsersController();
-    }
-
-    [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
     public partial class ExampleAreaClass
     {
         public readonly string Name = "Example";
@@ -105,9 +97,24 @@ public static partial class Links
         public const string UrlPath = "~/css";
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
+        public static readonly string bundle_global_css = Url("bundle-global.css");
+        public static readonly string bundle_global_min_css = Url("bundle-global.min.css");
+        public static readonly string bundle_vue_multiselect_css = Url("bundle-vue-multiselect.css");
+        public static readonly string bundle_vue_multiselect_min_css = Url("bundle-vue-multiselect.min.css");
+        public static readonly string site_css = Url("site.css");
         public static readonly string site_layout_scss = Url("site.layout.scss");
+        public static readonly string site_min_css = Url("site.min.css");
         public static readonly string site_scss = Url("site.scss");
         public static readonly string site_variables_scss = Url("site.variables.scss");
+    }
+
+    public static partial class images
+    {
+        public const string UrlPath = "~/images";
+        public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
+        public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
+        public static readonly string app_logo_png = Url("app-logo.png");
+        public static readonly string company_logo_png = Url("company-logo.png");
     }
 
     public static partial class js
@@ -115,16 +122,27 @@ public static partial class Links
         public const string UrlPath = "~/js";
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
+        public static readonly string bundle_global_js = Url("bundle-global.js");
+        public static readonly string bundle_global_min_js = Url("bundle-global.min.js");
         public static readonly string bundle_global_min_js_map = Url("bundle-global.min.js.map");
+        public static readonly string bundle_signalr_js = Url("bundle-signalr.js");
+        public static readonly string bundle_vue_multiselect_js = Url("bundle-vue-multiselect.js");
+        public static readonly string bundle_vue_multiselect_min_js = Url("bundle-vue-multiselect.min.js");
         public static readonly string bundle_vue_multiselect_min_js_map = Url("bundle-vue-multiselect.min.js.map");
+        public static readonly string bundle_vue_js = Url("bundle-vue.js");
+        public static readonly string bundle_vue_min_js = Url("bundle-vue.min.js");
         public static readonly string bundle_vue_min_js_map = Url("bundle-vue.min.js.map");
         public static readonly string signalRConnectionManager_d_ts = Url("signalRConnectionManager.d.ts");
+        public static readonly string signalRConnectionManager_js = Url("signalRConnectionManager.js");
         public static readonly string signalRConnectionManager_js_map = Url("signalRConnectionManager.js.map");
         public static readonly string signalRConnectionManager_ts = Url("signalRConnectionManager.ts");
         public static readonly string site_d_ts = Url("site.d.ts");
+        public static readonly string site_js = Url("site.js");
         public static readonly string site_js_map = Url("site.js.map");
         public static readonly string site_ts = Url("site.ts");
     }
+
+    public static readonly string favicon_ico = Url("favicon.ico");
 }
 
 [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]

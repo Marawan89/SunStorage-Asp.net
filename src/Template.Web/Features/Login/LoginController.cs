@@ -27,30 +27,14 @@ namespace Template.Web.Features.Login
             _sharedLocalizer = sharedLocalizer;
         }
 
-        private ActionResult LoginAndRedirect(UserDetailDTO utente, bool rememberMe)
+        private ActionResult LoginAndRedirect(UserDetailDTO utente, string returnUrl, bool rememberMe)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, utente.Id.ToString()),
-                new Claim(ClaimTypes.Email, utente.Email),
-                new Claim(ClaimTypes.Name, utente.FirstName),
-                new Claim(ClaimTypes.Surname, utente.LastName)
+                new Claim(ClaimTypes.Email, utente.Email)
             };
 
-            if (utente.Email == "email1@test.it")
-            {
-                claims.Add(new Claim(ClaimTypes.GroupSid, "Admin_Full"));
-                var clamiIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(clamiIdentity), new AuthenticationProperties
-                {
-                    ExpiresUtc = (rememberMe) ? DateTimeOffset.UtcNow.AddMonths(3) : null,
-                    IsPersistent = rememberMe,
-                });
-
-                return RedirectToAction(MVC.Admin.Users.Index());
-            }
-            claims.Add(new Claim(ClaimTypes.GroupSid, "Admin"));
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
@@ -59,19 +43,30 @@ namespace Template.Web.Features.Login
                 IsPersistent = rememberMe,
             });
 
-            return RedirectToAction(MVC.Admin.Users.Index());
+            if (string.IsNullOrWhiteSpace(returnUrl) == false)
+                return Redirect(returnUrl);
 
+            return RedirectToAction(MVC.Admin.Users.Index());
         }
 
         [HttpGet]
         public virtual IActionResult Login(string returnUrl)
         {
+            if (HttpContext.User != null && HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+            {
+                if (string.IsNullOrWhiteSpace(returnUrl) == false)
+                    return Redirect(returnUrl);
 
-            var model = new LoginViewModel();
+                return RedirectToAction(MVC.Admin.Users.Index());
+            }
+
+            var model = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+            };
 
             return View(model);
         }
-
 
         [HttpPost]
         public async virtual Task<ActionResult> Login(LoginViewModel model)
@@ -86,7 +81,7 @@ namespace Template.Web.Features.Login
                         Password = model.Password,
                     });
 
-                    return LoginAndRedirect(utente, model.RememberMe);
+                    return LoginAndRedirect(utente, model.ReturnUrl, model.RememberMe);
                 }
                 catch (LoginException e)
                 {

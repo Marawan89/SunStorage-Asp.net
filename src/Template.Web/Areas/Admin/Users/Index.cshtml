@@ -1,122 +1,147 @@
-﻿@page
-@model Template.Web.Areas.Admin.Users.IndexViewModel
+﻿@model Template.Web.Areas.Admin.Users.IndexViewModel
 
 @{
-    ViewData["Title"] = "Device Management";
+    ViewData["Title"] = "Devices";
 }
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <h2>Device Management</h2>
+        <div class="col-12 col-md-8 nav-container mt-3 mt-md-0 p-0">
+            <div class="col-12 bg-content p-md-5">
+                <a href="/Admin/Devices/Create" class="btn btn-dark mb-2">Add a Device</a>
 
-            <a href="/devices/create" class="btn btn-dark mb-2">Add a Device</a>
-
-            <div class="filtering">
-                <div class="d-flex mb-3">
-                    <form method="get">
-                        <input class="form-control me-2"
-                               type="search"
-                               placeholder="Search for a Serial Number"
-                               name="searchTerm"
-                               value="@Model.SearchTerm"
-                               oninput="this.form.submit()" />
-                    </form>
+                <div class="filtering">
+                    <div class="d-flex mb-3">
+                        <input class="form-control me-2" type="search" placeholder="Search for a Serial Number" value="@Model.SearchTerm" />
+                    </div>
                 </div>
 
-                <form method="get">
-                    <div class="row my-2">
-                        <div class="col-12">Filters:</div>
-                        <div class="col-4">
-                            <select name="DeviceTypeFilter" class="form-control" onchange="this.form.submit()">
-                                <option value="">Seleziona Tipo di Dispositivo</option>
-                                @if (Model.DeviceTypes != null)
-                                {
-                                    foreach (var deviceType in Model.DeviceTypes)
-                                    {
-                                        <option value="@deviceType" selected="@(deviceType == Model.DeviceTypeFilter)">@deviceType</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-4">
-                            <select name="DeviceStatusFilter" class="form-control" onchange="this.form.submit()">
-                                <option value="">Device Status...</option>
-                                @foreach (var status in Model.AllDevices.Select(d => d.Status).Distinct())
-                                {
-                                    <option value="@status" selected="@(status == Model.DeviceStatusFilter)">@status</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-4">
-                            <select name="DeviceWarrantyFilter" class="form-control" onchange="this.form.submit()">
-                                <option value="">Warranty Status...</option>
-                                <option value="Valid" selected="@(Model.DeviceWarrantyFilter == "Valid")">Valid</option>
-                                <option value="Expired" selected="@(Model.DeviceWarrantyFilter == "Expired")">Expired</option>
-                            </select>
-                        </div>
+                <div class="row my-2">
+                    <div class="col-12">Filters:</div>
+                    <div class="col-4">
+                        <select class="form-control" asp-for="DeviceTypeFilter">
+                            <option value="">Device Type...</option>
+                            @foreach (var option in Model.DeviceTypeOptions)
+                            {
+                                <option value="@option">@option</option>
+                            }
+                        </select>
                     </div>
-                </form>
-            </div>
+                    <div class="col-4">
+                        <select class="form-control" asp-for="DeviceStatusFilter">
+                            <option value="">Device Status...</option>
+                            @foreach (var option in Model.DeviceStatusOptions)
+                            {
+                                <option value="@option">@option</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                        <select class="form-control" asp-for="DeviceWarrantyFilter">
+                            <option value="">Warranty Status...</option>
+                            <option value="Valid">Valid</option>
+                            <option value="Expired">Expired</option>
+                            <option value="Not available">Not available</option>
+                        </select>
+                        <button class="btn btn-outline-danger ms-2" title="Reset Filters" onclick="resetFilters()">❌</button>
+                    </div>
+                </div>
 
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Serial Number</th>
-                            <th>Device Type</th>
-                            <th>Warranty</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.CurrentDevices.Any())
-                        {
-                            foreach (var device in Model.CurrentDevices)
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Serial Number</th>
+                                <th scope="col">Device Type</th>
+                                <th scope="col">Warranty</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            @if (Model.Devices.Any())
+                            {
+                                @foreach (var device in Model.Devices)
+                                {
+                                    <tr>
+                                        <td>@device.SerialNumber</td>
+                                        <td>@device.DeviceTypeName</td>
+                                        <td>
+                                            @if (device.DeviceWarranty != null)
+                                            {
+                                                @if (device.DeviceWarranty.EndDate >= DateTime.Now)
+                                                {
+                                                    @:Valid;
+                                                }
+                                                else
+                                                {
+                                                    @:Expired;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @:Not available;
+                                            }
+                                        </td>
+
+                                        <td>@device.Status</td>
+                                        <td>
+                                            <a href="@Url.Action("Show", "Devices", new { id = device.Id })" class="btn btn-outline-warning">View</a>
+                                            <div class="btn-group drop">
+                                                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="@Url.Action("Edit", "Devices", new { id = device.Id })" class="dropdown-item">Edit Device</a>
+                                                    <a href="#" class="dropdown-item" onclick="changeDeviceStatus(@device.Id)">Change Status</a>
+                                                    <a href="#" class="dropdown-item" onclick="deleteDevice(@device.Id)">Delete Device</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@device.SerialNumber</td>
-                                    <td>@device.DeviceTypeName</td>
-                                    <td>@device.WarrantyStatus</td>
-                                    <td>@device.Status</td>
-                                    <td>
-                                        <a href="/devices/@device.Id/show" class="btn btn-outline-warning">View</a>
-                                        <a href="/devices/@device.Id/edit" class="btn btn-outline-info">Edit</a>
-                                    </td>
+                                    <td colspan="5">No record found</td>
                                 </tr>
                             }
-                        }
-                        else
+                        </tbody>
+                    </table>
+                </div>
+
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        @for (int i = 1; i <= Model.TotalPages; i++)
                         {
-                            <tr>
-                                <td colspan="5">No devices found</td>
-                            </tr>
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="#" onclick="changePage(@i)">@i</a>
+                            </li>
                         }
-                    </tbody>
-                </table>
+                    </ul>
+                </nav>
             </div>
-
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link" href="?page=@(Model.CurrentPage - 1)">Previous</a>
-                    </li>
-
-                    @for (int i = 1; i <= Model.TotalPages; i++)
-                    {
-                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
-                            <a class="page-link" href="?page=@i">@i</a>
-                        </li>
-                    }
-
-                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link" href="?page=@(Model.CurrentPage + 1)">Next</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
+
+<script>
+    function changeDeviceStatus(deviceId) {
+        // Handle status change
+    }
+
+    function deleteDevice(deviceId) {
+        if (confirm("Are you sure you want to delete this device?")) {
+            // Call backend to delete device
+        }
+    }
+
+    function resetFilters() {
+        // Reset all filters
+    }
+
+    function changePage(pageNumber) {
+        // Change page logic
+    }
+</script>

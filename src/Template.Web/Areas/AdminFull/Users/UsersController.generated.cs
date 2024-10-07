@@ -15,12 +15,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using R4Mvc;
 
-namespace Template.Web.Features.Home
+namespace Template.Web.Areas.AdminFull.Users
 {
-    public partial class HomeController
+    public partial class UsersController
     {
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-        protected HomeController(Dummy d)
+        public UsersController()
+        {
+        }
+
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        protected UsersController(Dummy d)
         {
         }
 
@@ -76,21 +81,14 @@ namespace Template.Web.Features.Home
             return RedirectToPagePermanent(taskResult.Result);
         }
 
-        [NonAction]
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-        public virtual IActionResult ChangeLanguageTo()
-        {
-            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeLanguageTo);
-        }
-
-        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-        public HomeController Actions => MVC.Home;
+        public UsersController Actions => MVC.Users;
         [GeneratedCode("R4Mvc", "1.0")]
         public readonly string Area = "";
         [GeneratedCode("R4Mvc", "1.0")]
-        public readonly string Name = "Home";
+        public readonly string Name = "Users";
         [GeneratedCode("R4Mvc", "1.0")]
-        public const string NameConst = "Home";
+        public const string NameConst = "Users";
         [GeneratedCode("R4Mvc", "1.0")]
         static readonly ActionNamesClass s_ActionNames = new ActionNamesClass();
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
@@ -98,13 +96,13 @@ namespace Template.Web.Features.Home
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ActionNamesClass
         {
-            public readonly string ChangeLanguageTo = "ChangeLanguageTo";
+            public readonly string Index = "Index";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
-            public const string ChangeLanguageTo = "ChangeLanguageTo";
+            public const string Index = "Index";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
@@ -124,20 +122,19 @@ namespace Template.Web.Features.Home
     }
 
     [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-    public partial class R4MVC_HomeController : Template.Web.Features.Home.HomeController
+    public partial class R4MVC_UsersController : Template.Web.Areas.AdminFull.Users.UsersController
     {
-        public R4MVC_HomeController(): base(Dummy.Instance)
+        public R4MVC_UsersController(): base(Dummy.Instance)
         {
         }
 
         [NonAction]
-        partial void ChangeLanguageToOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, string cultureName);
+        partial void IndexOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo);
         [NonAction]
-        public override Microsoft.AspNetCore.Mvc.IActionResult ChangeLanguageTo(string cultureName)
+        public override Microsoft.AspNetCore.Mvc.IActionResult Index()
         {
-            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeLanguageTo);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "cultureName", cultureName);
-            ChangeLanguageToOverride(callInfo, cultureName);
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Index);
+            IndexOverride(callInfo);
             return callInfo;
         }
     }
