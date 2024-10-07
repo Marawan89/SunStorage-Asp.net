@@ -7,7 +7,7 @@ using Template.Web.Areas.Admin.Users;
 namespace Template.Web.Areas.Admin.Users
 {
     [Area("Admin")]
-    public partial class UsersController : Controller
+    public partial class UsersController : AuthenticatedBaseController
     {
         public virtual IActionResult Index()
         {

@@ -1,9 +1,11 @@
 ﻿@inject IHtmlLocalizer<Template.Web.SharedResource> SharedLocalizer
 @inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+
 @{
     Layout = "_LayoutHtml";
     var version = System.Reflection.Assembly.GetAssembly(typeof(Startup)).GetName().Version;
 
+    // Recupera l'identità corrente dal ViewData
     var identitaCorrente = (Template.Web.Areas.IdentitaViewModel)ViewData[Template.Web.Areas.IdentitaViewModel.VIEWDATA_IDENTITACORRENTE_KEY];
 }
 
@@ -13,11 +15,12 @@
 @section styles{
     @RenderSection("styles", false)
 }
+
 <div id="pageId" class="onit-page">
     <div class="onit-page-sticky-top" id="onit-page-sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark onit-page-menu">
             <div class="container-fluid">
-                <a href="/" class="logo" style="font-weight: bold; font-family: 'Inter', sans-serif; font-size: 70px; color: #fbdd01; text-decoration: none;">
+                <a href="/" class="logo" style="font-weight: bold; font-family: 'Inter', sans-serif; font-size: 50px; color: #fbdd01; text-decoration: none;">
                     Sun<span style="font-weight: 100; color: white;">Storage</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +32,7 @@
                         {
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img class="user-profile-picture" src="@identitaCorrente.GravatarUrl" />&nbsp;@identitaCorrente.EmailUtenteCorrente
+                                    Ciao&nbsp;@identitaCorrente.EmailUtenteCorrente
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end" role="menu">
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Chiudi sessione di lavoro"]">
@@ -56,4 +59,3 @@
     </script>
     @RenderSection("scripts", false)
 }
-    
