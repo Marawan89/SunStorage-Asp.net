@@ -1,0 +1,108 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+/* Container principale della pagina di login */
+.login-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+}
+
+/* Wrapper del form di login */
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stile del logo */
+.login-logo h1 {
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+    font-size: 48px;
+    color: #FBDD01;
+}
+
+    .login-logo h1 span {
+        font-weight: 100;
+        color: white;
+    }
+
+/* Container del form di login */
+.login-form-container {
+    background-color: #FBDD01;
+    border-radius: 30px;
+    padding: 40px;
+    width: 100%;
+}
+
+/* Titolo del form di login */
+.login-title {
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Stile per i gruppi di campi del form */
+.login-form-group {
+    margin-bottom: 15px;
+}
+
+/* Stile per le etichette del form */
+.login-label {
+    color: black;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Stile per i campi input */
+.login-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-input:focus {
+    border-color: #FBDD01;
+    outline: none;
+}
+
+/* Stile per il bottone di submit */
+.login-submit-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.login-submit-button:hover {
+    background-color: #218838;
+}
+
+/* Stile per la checkbox "Remember Me" */
+.login-checkbox {
+    width: 50px;
+    height: 25px;
+    cursor: pointer;
+}
+
+/* Stile per i messaggi di errore */
+.login-error {
+    color: red;
+}
+
+/* Stile per etichetta della checkbox */
+.login-label.form-check-label {
+    color: black;
+    margin-left: 10px;
+}
