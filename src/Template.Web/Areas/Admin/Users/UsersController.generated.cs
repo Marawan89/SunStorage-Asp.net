@@ -20,11 +20,6 @@ namespace Template.Web.Areas.Admin.Users
     public partial class UsersController
     {
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-        public UsersController()
-        {
-        }
-
-        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         protected UsersController(Dummy d)
         {
         }
@@ -81,6 +76,27 @@ namespace Template.Web.Areas.Admin.Users
             return RedirectToPagePermanent(taskResult.Result);
         }
 
+        [NonAction]
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public virtual IActionResult Index()
+        {
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Index);
+        }
+
+        [NonAction]
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public virtual IActionResult ChangeDeviceStatus()
+        {
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeDeviceStatus);
+        }
+
+        [NonAction]
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public virtual IActionResult DeleteDevice()
+        {
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.DeleteDevice);
+        }
+
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public UsersController Actions => MVC.Admin.Users;
         [GeneratedCode("R4Mvc", "1.0")]
@@ -97,12 +113,18 @@ namespace Template.Web.Areas.Admin.Users
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string AddDevice = "AddDevice";
+            public readonly string ChangeDeviceStatus = "ChangeDeviceStatus";
+            public readonly string DeleteDevice = "DeleteDevice";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string AddDevice = "AddDevice";
+            public const string ChangeDeviceStatus = "ChangeDeviceStatus";
+            public const string DeleteDevice = "DeleteDevice";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
@@ -129,12 +151,59 @@ namespace Template.Web.Areas.Admin.Users
         }
 
         [NonAction]
-        partial void IndexOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo);
+        partial void IndexOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, string searchTerm, string deviceTypeFilter, string deviceStatusFilter, int currentPage);
         [NonAction]
-        public override Microsoft.AspNetCore.Mvc.IActionResult Index()
+        public override Microsoft.AspNetCore.Mvc.IActionResult Index(string searchTerm, string deviceTypeFilter, string deviceStatusFilter, int currentPage)
         {
             var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            IndexOverride(callInfo);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "searchTerm", searchTerm);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "deviceTypeFilter", deviceTypeFilter);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "deviceStatusFilter", deviceStatusFilter);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "currentPage", currentPage);
+            IndexOverride(callInfo, searchTerm, deviceTypeFilter, deviceStatusFilter, currentPage);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void AddDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo);
+        [NonAction]
+        public override Microsoft.AspNetCore.Mvc.IActionResult AddDevice()
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.AddDevice);
+            AddDeviceOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void AddDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, Template.Web.Areas.Admin.Users.AddDeviceViewModel model);
+        [NonAction]
+        public override Microsoft.AspNetCore.Mvc.IActionResult AddDevice(Template.Web.Areas.Admin.Users.AddDeviceViewModel model)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.AddDevice);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            AddDeviceOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ChangeDeviceStatusOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, int id);
+        [NonAction]
+        public override Microsoft.AspNetCore.Mvc.IActionResult ChangeDeviceStatus(int id)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeDeviceStatus);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ChangeDeviceStatusOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, int id);
+        [NonAction]
+        public override Microsoft.AspNetCore.Mvc.IActionResult DeleteDevice(int id)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.DeleteDevice);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DeleteDeviceOverride(callInfo, id);
             return callInfo;
         }
     }

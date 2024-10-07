@@ -1,0 +1,20 @@
+﻿@page "{id:int}"
+@model Template.Web.Areas.Admin.Users.IndexViewModel
+
+@{
+    ViewData["Title"] = "Edit Device";
+}
+
+<h2>Edit Device</h2>
+
+<form method="post" id="editDeviceForm">
+    <div class="form-group">
+        <label for="SerialNumber">Serial Number</label>
+        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" required />
+    </div>
+    <!-- Altri campi come Warranty, Device Type, Status -->
+
+    <button type="submit" class="btn btn-primary">Update Device</button>
+</form>
+
+<script src="~/js/devices/edit-device.ts"></script>

@@ -1,0 +1,40 @@
+﻿@model Template.Web.Areas.Admin.Users.AddDeviceViewModel
+
+@{
+    ViewData["Title"] = "Add Device";
+}
+
+<link rel="stylesheet" href="~/css/site.css">
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="mt-4 bg-content p-md-5">
+                <h2>Add Device</h2>
+                <form method="post" asp-action="AddDevice">
+                    <div class="form-group mb-3">
+                        <label for="SerialNumber">Serial Number</label>
+                        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="DeviceType">Device Type</label>
+                        <input type="text" class="form-control" id="DeviceTypeName" name="DeviceTypeName" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Status">Status</label>
+                        <input type="text" class="form-control" id="Status" name="Status" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="WarrantyStartDate">Warranty Start Date</label>
+                        <input type="date" class="form-control" id="WarrantyStartDate" name="DeviceWarranty.StartDate" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="WarrantyEndDate">Warranty End Date</label>
+                        <input type="date" class="form-control" id="WarrantyEndDate" name="DeviceWarranty.EndDate" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Device</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

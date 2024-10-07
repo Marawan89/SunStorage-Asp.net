@@ -101,10 +101,11 @@ public static partial class Links
         public static readonly string bundle_global_min_css = Url("bundle-global.min.css");
         public static readonly string bundle_vue_multiselect_css = Url("bundle-vue-multiselect.css");
         public static readonly string bundle_vue_multiselect_min_css = Url("bundle-vue-multiselect.min.css");
+        public static readonly string global_css = Url("global.css");
+        public static readonly string login_css = Url("login.css");
         public static readonly string site_css = Url("site.css");
         public static readonly string site_layout_scss = Url("site.layout.scss");
         public static readonly string site_min_css = Url("site.min.css");
-        public static readonly string site_scss = Url("site.scss");
         public static readonly string site_variables_scss = Url("site.variables.scss");
     }
 
@@ -113,8 +114,8 @@ public static partial class Links
         public const string UrlPath = "~/images";
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
-        public static readonly string app_logo_png = Url("app-logo.png");
-        public static readonly string company_logo_png = Url("company-logo.png");
+        public static readonly string sunStorage_png = Url("sunStorage.png");
+        public static readonly string sunStorageLogo_png = Url("sunStorageLogo.png");
     }
 
     public static partial class js
@@ -122,6 +123,19 @@ public static partial class Links
         public const string UrlPath = "~/js";
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
+        public static partial class devices
+        {
+            public const string UrlPath = "~/js/devices";
+            public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
+            public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
+            public static readonly string add_device_js = Url("add-device.js");
+            public static readonly string add_device_js_map = Url("add-device.js.map");
+            public static readonly string add_device_ts = Url("add-device.ts");
+            public static readonly string edit_device_js = Url("edit-device.js");
+            public static readonly string edit_device_js_map = Url("edit-device.js.map");
+            public static readonly string edit_device_ts = Url("edit-device.ts");
+        }
+
         public static readonly string bundle_global_js = Url("bundle-global.js");
         public static readonly string bundle_global_min_js = Url("bundle-global.min.js");
         public static readonly string bundle_global_min_js_map = Url("bundle-global.min.js.map");
