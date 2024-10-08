@@ -14,16 +14,18 @@
                 <form method="post" asp-action="AddDevice">
                     <div class="form-group mb-3">
                         <label for="SerialNumber">Serial Number</label>
-                        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" required />
+                        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" required minlength="10" pattern="^[a-zA-Z0-9]+$" />
                     </div>
                     <div class="form-group mb-3">
                         <label for="DeviceType">Device Type</label>
-                        <input type="text" class="form-control" id="DeviceTypeName" name="DeviceTypeName" required />
+                        <select class="form-control" id="DeviceType" name="DeviceTypeName" required>
+                            <option value="" disabled selected>Choose an option</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Phone">Phone</option>
+                            <option value="Desktop-PC">Desktop-PC</option>
+                        </select>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="Status">Status</label>
-                        <input type="text" class="form-control" id="Status" name="Status" required />
-                    </div>
+                    <div id="dynamic-fields"></div>
                     <div class="form-group mb-3">
                         <label for="WarrantyStartDate">Warranty Start Date</label>
                         <input type="date" class="form-control" id="WarrantyStartDate" name="DeviceWarranty.StartDate" required />
@@ -38,3 +40,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/devices/add-device.js"></script>
