@@ -1,144 +1,158 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using Template.Services.Shared;
+using Template.Services;
 using Template.Web.Areas.Admin.Users;
+using Template.Web.Areas;
 
 namespace Template.Web.Areas.Admin.Users
 {
     [Area("Admin")]
     public partial class UsersController : AuthenticatedBaseController
     {
-        private List<DeviceViewModel> devices;
+        private readonly TemplateDbContext _context;
 
-        public UsersController()
+        public UsersController(TemplateDbContext context)
         {
-            devices = GetDevicesFromDatabase(); // Inizializziamo i dispositivi una sola volta
+            _context = context;
         }
 
-        public virtual IActionResult Index(string searchTerm, string deviceTypeFilter, string deviceStatusFilter, int currentPage = 1)
+        public virtual async Task<IActionResult> Index(string searchTerm, string deviceTypeFilter,
+            string deviceStatusFilter, string deviceWarrantyFilter, int currentPage = 1)
         {
-            var filteredDevices = devices.AsQueryable();
+            var query = _context.Devices.AsQueryable();
 
             // Applicare i filtri
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                filteredDevices = filteredDevices.Where(d => d.SerialNumber.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+                query = query.Where(d => d.SerialNumber.Contains(searchTerm));
             }
 
             if (!string.IsNullOrEmpty(deviceTypeFilter))
             {
-                filteredDevices = filteredDevices.Where(d => d.DeviceTypeName == deviceTypeFilter);
+                query = query.Where(d => d.DeviceTypeName == deviceTypeFilter);
             }
 
             if (!string.IsNullOrEmpty(deviceStatusFilter))
             {
-                filteredDevices = filteredDevices.Where(d => d.Status == deviceStatusFilter);
+                query = query.Where(d => d.Status == deviceStatusFilter);
             }
 
-            // Pagina dei risultati
-            var pageSize = 5; // Numero di dispositivi per pagina
-            var totalDevices = filteredDevices.Count();
-            var devicesToShow = filteredDevices.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+            if (!string.IsNullOrEmpty(deviceWarrantyFilter))
+            {
+                var today = DateTime.Today;
+                switch (deviceWarrantyFilter)
+                {
+                    case "Valid":
+                        query = query.Where(d => d.WarrantyEndDate >= today);
+                        break;
+                    case "Expired":
+                        query = query.Where(d => d.WarrantyEndDate < today);
+                        break;
+                }
+            }
+
+            var pageSize = 5;
+            var totalDevices = await query.CountAsync();
+            var devices = await query
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Converti Device in DeviceViewModel
+            var deviceViewModels = devices.Select(d => new DeviceViewModel
+            {
+                Id = d.Id,
+                SerialNumber = d.SerialNumber,
+                DeviceTypeName = d.DeviceTypeName,
+                Status = d.Status,
+                WarrantyStartDate = d.WarrantyStartDate,
+                WarrantyEndDate = d.WarrantyEndDate,
+                Model = d.Model,
+                DiskType = d.DiskType,
+                DiskSize = d.DiskSize,
+                RamSize = d.RamSize,
+                ProcessorType = d.ProcessorType
+            }).ToList();
 
             var viewModel = new IndexViewModel
             {
-                Devices = devicesToShow,
-                DeviceTypeOptions = devices.Select(d => d.DeviceTypeName).Distinct().ToList(),
-                DeviceStatusOptions = devices.Select(d => d.Status).Distinct().ToList(),
+                Devices = deviceViewModels,
+                DeviceTypeOptions = await _context.Devices.Select(d => d.DeviceTypeName).Distinct().ToListAsync(),
+                DeviceStatusOptions = await _context.Devices.Select(d => d.Status).Distinct().ToListAsync(),
                 TotalPages = (int)Math.Ceiling(totalDevices / (double)pageSize),
                 SearchTerm = searchTerm,
                 DeviceTypeFilter = deviceTypeFilter,
                 DeviceStatusFilter = deviceStatusFilter,
+                DeviceWarrantyFilter = deviceWarrantyFilter,
                 CurrentPage = currentPage
             };
 
             return View(viewModel);
         }
 
-        // Visualizza la pagina per aggiungere un dispositivo
-        public virtual IActionResult AddDevice()
+        [HttpGet]
+        [ActionName("AddDevice")]
+        public virtual IActionResult AddDeviceForm()
         {
-            return View(new AddDeviceViewModel());
+            return View();
         }
 
         [HttpPost]
-        public virtual IActionResult AddDevice(AddDeviceViewModel model)
+        public virtual async Task<IActionResult> AddDevice(AddDeviceViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // Converti AddDeviceViewModel in DeviceViewModel
-                var device = new DeviceViewModel
-                {
-                    SerialNumber = model.SerialNumber,
-                    DeviceTypeName = model.DeviceTypeName,
-                    Status = model.Status,
-                    DeviceWarranty = model.DeviceWarranty
-                };
-
-                devices.Add(device); // Aggiunge il dispositivo alla lista
-                return RedirectToAction("Index");
+                return View(model);
             }
 
-            return View(model);
-        }
-
-
-        // Cambia lo stato del dispositivo
-        [HttpPost]
-        public virtual IActionResult ChangeDeviceStatus(int id)
-        {
-            var device = devices.FirstOrDefault(d => d.Id == id);
-            if (device != null)
+            var device = new Device
             {
-                // Logica per cambiare lo stato del dispositivo
-                device.Status = device.Status == "Active" ? "Inactive" : "Active";
-            }
-            return RedirectToAction("Index");
-        }
-
-        // Elimina il dispositivo
-        [HttpPost]
-        public virtual IActionResult DeleteDevice(int id)
-        {
-            var device = devices.FirstOrDefault(d => d.Id == id);
-            if (device != null)
-            {
-                devices.Remove(device); // Rimuove il dispositivo dalla lista
-            }
-            return RedirectToAction("Index");
-        }
-
-        // Simulazione della logica di fetch dal database
-        private List<DeviceViewModel> GetDevicesFromDatabase()
-        {
-            return new List<DeviceViewModel>
-            {
-                new DeviceViewModel
-                {
-                    Id = 1,
-                    SerialNumber = "SN12345",
-                    DeviceTypeName = "Laptop",
-                    Status = "Active",
-                    DeviceWarranty = new DeviceWarranty { StartDate = DateTime.Now.AddYears(-1), EndDate = DateTime.Now.AddYears(1) }
-                },
-                new DeviceViewModel
-                {
-                    Id = 2,
-                    SerialNumber = "SN67890",
-                    DeviceTypeName = "Phone",
-                    Status = "Inactive",
-                    DeviceWarranty = new DeviceWarranty { StartDate = DateTime.Now.AddYears(-2), EndDate = DateTime.Now.AddMonths(-6) }
-                },
-                new DeviceViewModel
-                {
-                    Id = 3,
-                    SerialNumber = "SN64814",
-                    DeviceTypeName = "Desktop-Pc",
-                    Status = "Under Repair",
-                    DeviceWarranty = new DeviceWarranty { StartDate = DateTime.Now.AddYears(-3), EndDate = DateTime.Now.AddMonths(2) }
-                }
+                Id = Guid.NewGuid(),
+                SerialNumber = model.SerialNumber,
+                DeviceTypeName = model.DeviceTypeName,
+                Status = "Active",
+                WarrantyStartDate = model.WarrantyStartDate,
+                WarrantyEndDate = model.WarrantyEndDate,
+                Model = model.Model,
+                DiskType = model.DiskType,
+                DiskSize = model.DiskSize,
+                RamSize = model.RamSize,
+                ProcessorType = model.ProcessorType
             };
+
+            _context.Devices.Add(device);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> ChangeDeviceStatus(Guid id)
+        {
+            var device = await _context.Devices.FindAsync(id);
+            if (device != null)
+            {
+                device.Status = device.Status == "Active" ? "Inactive" : "Active";
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> DeleteDevice(Guid id)
+        {
+            var device = await _context.Devices.FindAsync(id);
+            if (device != null)
+            {
+                _context.Devices.Remove(device);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

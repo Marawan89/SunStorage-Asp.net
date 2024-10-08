@@ -36,5 +36,57 @@ namespace Template.Infrastructure
 
             context.SaveChanges();
         }
+
+        public static void InitializeDevices(TemplateDbContext context)
+        {
+            if (context.Devices.Any())
+            {
+                return;   // Data was already seeded
+            }
+
+            context.Devices.AddRange(
+                new Device
+                {
+                    Id = Guid.NewGuid(),
+                    SerialNumber = "SN123454654546",
+                    DeviceTypeName = "Laptop",
+                    Status = "Free",
+                    WarrantyStartDate = DateTime.Now.AddYears(-1),
+                    WarrantyEndDate = DateTime.Now.AddYears(1),
+                    Model = "ThinkPad X1",
+                    DiskType = "SSD",
+                    DiskSize = "512",
+                    RamSize = "16",
+                    ProcessorType = "Intel i7"
+                },
+                new Device
+                {
+                    Id = Guid.NewGuid(),
+                    SerialNumber = "SN678905456444",
+                    DeviceTypeName = "Phone",
+                    Status = "Dismissed",
+                    WarrantyStartDate = DateTime.Now.AddYears(-2),
+                    WarrantyEndDate = DateTime.Now.AddMonths(-6),
+                    Model = "iPhone 13",
+                    DiskSize = "128"
+                },
+                new Device
+                {
+                    Id = Guid.NewGuid(),
+                    SerialNumber = "SN8975644531456",
+                    DeviceTypeName = "Desktop-Pc",
+                    Status = "Under repair",
+                    WarrantyStartDate = DateTime.Now.AddYears(-2),
+                    WarrantyEndDate = DateTime.Now.AddYears(3),
+                    Model = "Mini-pc Dell",
+                    DiskType = "SSD",
+                    DiskSize = "512",
+                    RamSize = "8",
+                    ProcessorType = "Intel i5"
+                }
+            );
+
+            context.SaveChanges();
+        }
     }
 }

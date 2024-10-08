@@ -1,30 +1,4 @@
-﻿document.getElementById("addDeviceForm")?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target as HTMLFormElement);
-
-    try {
-        const response = await fetch('/api/devices', {
-            method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            alert('Device added successfully!');
-            window.location.href = '/admin/devices';
-        } else {
-            alert('Failed to add device');
-        }
-    } catch (error) {
-        console.error('Error adding device:', error);
-    }
-});
-
-
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     const deviceTypeSelect = document.getElementById('DeviceType') as HTMLSelectElement;
     const dynamicFieldsContainer = document.getElementById('dynamic-fields') as HTMLDivElement;
     const warrantyStartDateInput = document.getElementById('WarrantyStartDate') as HTMLInputElement;
@@ -157,25 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Submit the form if all checks pass
-        fetch('/api/devices', {
-            method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('Device added successfully!');
-                    window.location.href = '/admin/devices';
-                } else {
-                    alert('Failed to add device');
-                }
-            })
-            .catch(error => {
-                console.error('Error adding device:', error);
-            });
+        form.submit();
     });
 });
-
-
