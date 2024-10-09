@@ -206,17 +206,58 @@ namespace Template.Web.Areas.Admin.Users
         }
 
 
-        [HttpPost]
-        public virtual async Task<IActionResult> ChangeDeviceStatus(Guid id)
+        [HttpGet]
+        public async virtual Task<IActionResult> AssignDevice(Guid id)
         {
             var device = await _context.Devices.FindAsync(id);
-            if (device != null)
+            if (device == null)
             {
-                device.Status = device.Status == "Active" ? "Inactive" : "Active";
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
+
+            var model = new AssignDeviceViewModel
+            {
+                Id = device.Id,
+                Nome = "", // Campi vuoti inizialmente, da compilare
+                Cognome = "",
+                Email = ""
+            };
+
+            return View("AssignDevice", model);
+        }
+
+        [HttpPost]
+        public async virtual Task<IActionResult> AssignDevice(AssignDeviceViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var device = await _context.Devices.FindAsync(model.Id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            // Aggiunta dei dati di assegnazione nel dispositivo
+            device.AssignedNome = model.Nome;
+            device.AssignedCognome = model.Cognome;
+            device.AssignedEmail = model.Email;
+
+            // Cambia lo stato del dispositivo in "assigned"
+            device.Status = "assigned";
+
+            // Salvataggio dei dati aggiornati
+            _context.Devices.Update(device);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Device assigned successfully!";
             return RedirectToAction(nameof(Index));
         }
+
+
+
 
         [HttpPost]
         public virtual async Task<IActionResult> DeleteDevice(Guid id)

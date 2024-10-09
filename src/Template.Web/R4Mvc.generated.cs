@@ -131,6 +131,9 @@ public static partial class Links
             public static readonly string add_device_js = Url("add-device.js");
             public static readonly string add_device_js_map = Url("add-device.js.map");
             public static readonly string add_device_ts = Url("add-device.ts");
+            public static readonly string assign_device_js = Url("assign-device.js");
+            public static readonly string assign_device_js_map = Url("assign-device.js.map");
+            public static readonly string assign_device_ts = Url("assign-device.ts");
             public static readonly string edit_device_js = Url("edit-device.js");
             public static readonly string edit_device_js_map = Url("edit-device.js.map");
             public static readonly string edit_device_ts = Url("edit-device.ts");

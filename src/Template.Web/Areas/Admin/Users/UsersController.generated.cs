@@ -99,9 +99,9 @@ namespace Template.Web.Areas.Admin.Users
 
         [NonAction]
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-        public virtual IActionResult ChangeDeviceStatus()
+        public virtual IActionResult AssignDevice()
         {
-            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeDeviceStatus);
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.AssignDevice);
         }
 
         [NonAction]
@@ -130,7 +130,7 @@ namespace Template.Web.Areas.Admin.Users
             public readonly string AddDeviceForm = "AddDeviceForm";
             public readonly string AddDevice = "AddDevice";
             public readonly string EditDevice = "EditDevice";
-            public readonly string ChangeDeviceStatus = "ChangeDeviceStatus";
+            public readonly string AssignDevice = "AssignDevice";
             public readonly string DeleteDevice = "DeleteDevice";
         }
 
@@ -141,7 +141,7 @@ namespace Template.Web.Areas.Admin.Users
             public const string AddDeviceForm = "AddDeviceForm";
             public const string AddDevice = "AddDevice";
             public const string EditDevice = "EditDevice";
-            public const string ChangeDeviceStatus = "ChangeDeviceStatus";
+            public const string AssignDevice = "AssignDevice";
             public const string DeleteDevice = "DeleteDevice";
         }
 
@@ -227,13 +227,24 @@ namespace Template.Web.Areas.Admin.Users
         }
 
         [NonAction]
-        partial void ChangeDeviceStatusOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, System.Guid id);
+        partial void AssignDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, System.Guid id);
         [NonAction]
-        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ChangeDeviceStatus(System.Guid id)
+        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AssignDevice(System.Guid id)
         {
-            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeDeviceStatus);
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.AssignDevice);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            ChangeDeviceStatusOverride(callInfo, id);
+            AssignDeviceOverride(callInfo, id);
+            return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
+        }
+
+        [NonAction]
+        partial void AssignDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, Template.Web.Areas.Admin.Users.AssignDeviceViewModel model);
+        [NonAction]
+        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AssignDevice(Template.Web.Areas.Admin.Users.AssignDeviceViewModel model)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.AssignDevice);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            AssignDeviceOverride(callInfo, model);
             return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
         }
 
