@@ -69,7 +69,7 @@
                             {
                                 @foreach (var device in Model.Devices)
                                 {
-                                    <tr>
+                                    <tr data-device-id="@device.Id">
                                         <td>@device.SerialNumber</td>
                                         <td>@device.DeviceTypeName</td>
                                         <td>
@@ -98,11 +98,12 @@
                                                     {
                                                         <a href="@Url.Action("AssignDevice", "Users", new {id = device.Id})" class="dropdown-item">Assign Device</a>
                                                     }
-                                                    <a href="#" class="dropdown-item" onclick="deleteDevice(@device.Id)">Delete Device</a>
+                                                    <a href="#" class="dropdown-item" onclick="confirmDeleteDevice('@device.Id')">Delete Device</a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
+
                                 }
                             }
                             else
@@ -153,5 +154,37 @@
         document.querySelector('select[name="deviceStatusFilter"]').selectedIndex = 0;
         document.querySelector('select[name="deviceWarrantyFilter"]').selectedIndex = 0;
         document.forms[0].submit();
+    }
+
+    function confirmDeleteDevice(deviceId) {
+        if (confirm("Are you sure you want to delete this device?")) {
+            // Proceed with deletion
+            deleteDevice(deviceId);
+        }
+    }
+
+    function deleteDevice(deviceId) {
+        // Use AJAX to call the DeleteDevice action in the UsersController
+        fetch(`/Admin/Users/DeleteDevice/${deviceId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Optionally, you can remove the row from the table
+                    // Find the row and remove it
+                    document.querySelector(`tr[data-device-id="${deviceId}"]`).remove();
+                    alert("Device deleted successfully!");
+                } else {
+                    alert("Failed to delete the device.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while deleting the device.");
+            });
     }
 </script>

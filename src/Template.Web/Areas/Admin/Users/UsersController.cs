@@ -256,9 +256,6 @@ namespace Template.Web.Areas.Admin.Users
             return RedirectToAction(nameof(Index));
         }
 
-
-
-
         [HttpPost]
         public virtual async Task<IActionResult> DeleteDevice(Guid id)
         {
