@@ -92,6 +92,13 @@ namespace Template.Web.Areas.Admin.Users
 
         [NonAction]
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public virtual IActionResult EditDevice()
+        {
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.EditDevice);
+        }
+
+        [NonAction]
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public virtual IActionResult ChangeDeviceStatus()
         {
             return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ChangeDeviceStatus);
@@ -122,6 +129,7 @@ namespace Template.Web.Areas.Admin.Users
             public readonly string Index = "Index";
             public readonly string AddDeviceForm = "AddDeviceForm";
             public readonly string AddDevice = "AddDevice";
+            public readonly string EditDevice = "EditDevice";
             public readonly string ChangeDeviceStatus = "ChangeDeviceStatus";
             public readonly string DeleteDevice = "DeleteDevice";
         }
@@ -132,6 +140,7 @@ namespace Template.Web.Areas.Admin.Users
             public const string Index = "Index";
             public const string AddDeviceForm = "AddDeviceForm";
             public const string AddDevice = "AddDevice";
+            public const string EditDevice = "EditDevice";
             public const string ChangeDeviceStatus = "ChangeDeviceStatus";
             public const string DeleteDevice = "DeleteDevice";
         }
@@ -192,6 +201,28 @@ namespace Template.Web.Areas.Admin.Users
             var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.AddDevice);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             AddDeviceOverride(callInfo, model);
+            return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
+        }
+
+        [NonAction]
+        partial void EditDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, System.Guid id);
+        [NonAction]
+        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> EditDevice(System.Guid id)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.EditDevice);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            EditDeviceOverride(callInfo, id);
+            return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
+        }
+
+        [NonAction]
+        partial void EditDeviceOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, Template.Web.Areas.Admin.Users.EditDeviceViewModel model);
+        [NonAction]
+        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> EditDevice(Template.Web.Areas.Admin.Users.EditDeviceViewModel model)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.EditDevice);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            EditDeviceOverride(callInfo, model);
             return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
         }
 

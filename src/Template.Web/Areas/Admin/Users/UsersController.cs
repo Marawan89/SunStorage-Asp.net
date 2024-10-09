@@ -156,6 +156,56 @@ namespace Template.Web.Areas.Admin.Users
             }
         }
 
+        [HttpGet]
+        public async virtual Task<IActionResult> EditDevice(Guid id)
+        {
+            var device = await _context.Devices.FindAsync(id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditDeviceViewModel
+            {
+                Id = device.Id,
+                SerialNumber = device.SerialNumber,
+                DeviceTypeName = device.DeviceTypeName,
+                WarrantyStartDate = device.WarrantyStartDate,
+                WarrantyEndDate = device.WarrantyEndDate,
+                DeviceStatusName = device.Status
+            };
+
+            return View("EditDevice", model);
+        }
+
+        [HttpPost]
+        public async virtual Task<IActionResult> EditDevice(EditDeviceViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var device = await _context.Devices.FindAsync(model.Id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            // Aggiorna i dati del dispositivo
+            device.SerialNumber = model.SerialNumber;
+            device.DeviceTypeName = model.DeviceTypeName;
+            device.WarrantyStartDate = model.WarrantyStartDate;
+            device.WarrantyEndDate = model.WarrantyEndDate;
+            device.Status = model.DeviceStatusName;
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Device updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+
         [HttpPost]
         public virtual async Task<IActionResult> ChangeDeviceStatus(Guid id)
         {

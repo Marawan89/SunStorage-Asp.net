@@ -1,20 +1,49 @@
-﻿@page "{id:int}"
-@model Template.Web.Areas.Admin.Users.IndexViewModel
-
+﻿@model Template.Web.Areas.Admin.Users.EditDeviceViewModel
 @{
     ViewData["Title"] = "Edit Device";
 }
-
-<h2>Edit Device</h2>
-
-<form method="post" id="editDeviceForm">
-    <div class="form-group">
-        <label for="SerialNumber">Serial Number</label>
-        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" required />
+<link rel="stylesheet" href="~/css/site.css">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="mt-4 bg-content p-md-5">
+                <h2>Edit Device</h2>
+                <form method="post" id="editDeviceForm">
+                    <div class="form-group mb-3">
+                        <label for="SerialNumber">Serial Number</label>
+                        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" value="@Model.SerialNumber" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="DeviceTypeName">Device Type</label>
+                        <select class="form-control" id="DeviceTypeName" name="DeviceTypeName" required>
+                            <option value="Laptop" selected="@(Model.DeviceTypeName == "Laptop")">Laptop</option>
+                            <option value="Phone" selected="@(Model.DeviceTypeName == "Phone")">Phone</option>
+                            <option value="Desktop-PC" selected="@(Model.DeviceTypeName == "Desktop-PC")">Desktop-PC</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="WarrantyStartDate">Warranty Start Date</label>
+                        <input type="date" class="form-control" id="WarrantyStartDate" name="WarrantyStartDate"
+                               value="@Model.WarrantyStartDate?.ToString("yyyy-MM-dd")" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="WarrantyEndDate">Warranty End Date</label>
+                        <input type="date" class="form-control" id="WarrantyEndDate" name="WarrantyEndDate"
+                               value="@Model.WarrantyEndDate?.ToString("yyyy-MM-dd")" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="DeviceStatusName">Device Status</label>
+                        <select class="form-control" id="DeviceStatusName" name="DeviceStatusName" required>
+                            <option value="Free" selected="@(Model.DeviceStatusName == "Free")">Free</option>
+                            <option value="Under Repair" selected="@(Model.DeviceStatusName == "Under Repair")">Under Repair</option>
+                            <option value="Dismissed" selected="@(Model.DeviceStatusName == "Dismissed")">Dismissed</option>
+                        </select>
+                        <p>Se vuoi assegnare il computer vai nella sezione Change Status dentro il menu Actions</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Device</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <!-- Altri campi come Warranty, Device Type, Status -->
-
-    <button type="submit" class="btn btn-primary">Update Device</button>
-</form>
-
+</div>
 <script src="~/js/devices/edit-device.ts"></script>

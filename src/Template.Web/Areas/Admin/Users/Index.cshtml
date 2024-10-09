@@ -94,7 +94,7 @@
                                                     Actions
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="@Url.Action("Edit", "Devices", new { id = device.Id })" class="dropdown-item">Edit Device</a>
+                                                    <a href="@Url.Action("EditDevice", "Users", new { id = device.Id })" class="dropdown-item">Edit Device</a>
                                                     <a href="#" class="dropdown-item" onclick="changeDeviceStatus(@device.Id)">Change Status</a>
                                                     <a href="#" class="dropdown-item" onclick="deleteDevice(@device.Id)">Delete Device</a>
                                                 </div>
