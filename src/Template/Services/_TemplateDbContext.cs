@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Template.Services.Shared;
 using Template.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Template.Services
 {
     public class TemplateDbContext : DbContext
     {
-        public TemplateDbContext()
-        {
-        }
+        private static bool _databaseInitialized;
 
         public TemplateDbContext(DbContextOptions<TemplateDbContext> options) : base(options)
         {
-            DataGenerator.InitializeUsers(this);
-            DataGenerator.InitializeDevices(this);
+            if (!_databaseInitialized)
+            {
+                _databaseInitialized = true;
+                DataGenerator.InitializeDevices(this);
+            }
         }
 
         public DbSet<User> Users { get; set; }

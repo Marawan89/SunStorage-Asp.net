@@ -35,8 +35,8 @@ namespace Template.Web
 
             services.AddDbContext<TemplateDbContext>(options =>
             {
-                options.UseInMemoryDatabase(databaseName: "Template");
-            });
+                options.UseInMemoryDatabase("Template");
+            }, ServiceLifetime.Scoped);
 
             // SERVICES FOR AUTHENTICATION
             services.AddSession();
@@ -49,7 +49,8 @@ namespace Template.Web
             var builder = services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization(options =>
-                {                        // Enable loading SharedResource for ModelLocalizer
+                {
+                    // Enable loading SharedResource for ModelLocalizer
                     options.DataAnnotationLocalizerProvider = (type, factory) =>
                         factory.Create(typeof(SharedResource));
                 });
@@ -80,16 +81,18 @@ namespace Template.Web
             Container.RegisterTypes(services);
         }
 
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
-            if (!env.IsDevelopment())
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
             {
                 app.UseExceptionHandler("/Home/Error");
-
-                // Https redirection only in production
                 app.UseHsts();
-                app.UseHttpsRedirection();
             }
 
             // Localization support if you want to

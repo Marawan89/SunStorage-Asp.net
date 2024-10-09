@@ -201,17 +201,22 @@
     border-radius: 30px;
 }
 
+.table-striped{
+    border-radius: 10px;
+    min-height: 200px;
+}
+
 body {
-  margin: 0;
-  font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
-  font-weight: var(--bs-body-font-weight);
-  line-height: var(--bs-body-line-height);
-  color: var(--bs-body-color);
-  text-align: var(--bs-body-text-align);
-  background-color: black;
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: var(--bs-body-color);
+    text-align: var(--bs-body-text-align);
+    background-color: black;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 hr {
@@ -418,9 +423,10 @@ svg {
   vertical-align: middle;
 }
 
-table {
+.table {
   caption-side: bottom;
   border-collapse: collapse;
+  border-radius: 10px;
 }
 
 caption {
@@ -1875,6 +1881,7 @@ progress {
   margin-bottom: 1rem;
   vertical-align: top;
   border-color: var(--bs-table-border-color);
+  border-radius: 10px;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;

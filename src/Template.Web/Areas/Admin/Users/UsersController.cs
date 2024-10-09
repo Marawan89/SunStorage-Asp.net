@@ -6,8 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Template.Services.Shared;
 using Template.Services;
-using Template.Web.Areas.Admin.Users;
-using Template.Web.Areas;
+using Microsoft.Extensions.Logging;
 
 namespace Template.Web.Areas.Admin.Users
 {
@@ -15,84 +14,105 @@ namespace Template.Web.Areas.Admin.Users
     public partial class UsersController : AuthenticatedBaseController
     {
         private readonly TemplateDbContext _context;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(TemplateDbContext context)
+        public UsersController(TemplateDbContext context, ILogger<UsersController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        public virtual async Task<IActionResult> Index(string searchTerm, string deviceTypeFilter,
+        public async virtual Task<IActionResult> Index(string searchTerm, string deviceTypeFilter,
             string deviceStatusFilter, string deviceWarrantyFilter, int currentPage = 1)
         {
-            var query = _context.Devices.AsQueryable();
-
-            // Applicare i filtri
-            if (!string.IsNullOrEmpty(searchTerm))
+            try
             {
-                query = query.Where(d => d.SerialNumber.Contains(searchTerm));
-            }
+                var query = _context.Devices.AsQueryable();
 
-            if (!string.IsNullOrEmpty(deviceTypeFilter))
-            {
-                query = query.Where(d => d.DeviceTypeName == deviceTypeFilter);
-            }
+                var totalCount = await query.CountAsync();
+                _logger.LogInformation($"Total devices in database: {totalCount}");
 
-            if (!string.IsNullOrEmpty(deviceStatusFilter))
-            {
-                query = query.Where(d => d.Status == deviceStatusFilter);
-            }
-
-            if (!string.IsNullOrEmpty(deviceWarrantyFilter))
-            {
-                var today = DateTime.Today;
-                switch (deviceWarrantyFilter)
+                // Applicare i filtri
+                if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    case "Valid":
-                        query = query.Where(d => d.WarrantyEndDate >= today);
-                        break;
-                    case "Expired":
-                        query = query.Where(d => d.WarrantyEndDate < today);
-                        break;
+                    query = query.Where(d => d.SerialNumber.Contains(searchTerm));
                 }
+
+                if (!string.IsNullOrEmpty(deviceTypeFilter))
+                {
+                    query = query.Where(d => d.DeviceTypeName == deviceTypeFilter);
+                }
+
+                if (!string.IsNullOrEmpty(deviceStatusFilter))
+                {
+                    query = query.Where(d => d.Status == deviceStatusFilter);
+                }
+
+                if (!string.IsNullOrEmpty(deviceWarrantyFilter))
+                {
+                    var today = DateTime.Today;
+                    switch (deviceWarrantyFilter)
+                    {
+                        case "Valid":
+                            query = query.Where(d => d.WarrantyEndDate >= today);
+                            break;
+                        case "Expired":
+                            query = query.Where(d => d.WarrantyEndDate < today);
+                            break;
+                    }
+                }
+
+                var pageSize = 5;
+                var totalDevices = await query.CountAsync();
+                var devices = await query
+                    .OrderByDescending(d => d.CreatedAt) // Ordina per data di creazione in modo decrescente
+                    .Skip((currentPage - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+
+                if (devices.Any())
+                {
+                    var firstDevice = devices.First();
+                    _logger.LogInformation($"Sample device - SerialNumber: {firstDevice.SerialNumber}, Type: {firstDevice.DeviceTypeName}");
+                }
+
+                // Converti Device in DeviceViewModel
+                var deviceViewModels = devices.Select(d => new DeviceViewModel
+                {
+                    Id = d.Id,
+                    SerialNumber = d.SerialNumber,
+                    DeviceTypeName = d.DeviceTypeName,
+                    Status = d.Status,
+                    WarrantyStartDate = d.WarrantyStartDate,
+                    WarrantyEndDate = d.WarrantyEndDate,
+                    DeviceWarranty = new DeviceWarranty
+                    {
+                        StartDate = d.WarrantyStartDate,
+                        EndDate = d.WarrantyEndDate
+                    }
+                }).ToList();
+
+                var viewModel = new IndexViewModel
+                {
+                    Devices = deviceViewModels,
+                    DeviceTypeOptions = await _context.Devices.Select(d => d.DeviceTypeName).Distinct().ToListAsync(),
+                    DeviceStatusOptions = await _context.Devices.Select(d => d.Status).Distinct().ToListAsync(),
+                    TotalPages = (int)Math.Ceiling(totalDevices / (double)pageSize),
+                    SearchTerm = searchTerm,
+                    DeviceTypeFilter = deviceTypeFilter,
+                    DeviceStatusFilter = deviceStatusFilter,
+                    DeviceWarrantyFilter = deviceWarrantyFilter,
+                    CurrentPage = currentPage
+                };
+
+                return View(viewModel);
             }
-
-            var pageSize = 5;
-            var totalDevices = await query.CountAsync();
-            var devices = await query
-                .Skip((currentPage - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            // Converti Device in DeviceViewModel
-            var deviceViewModels = devices.Select(d => new DeviceViewModel
+            catch (Exception ex)
             {
-                Id = d.Id,
-                SerialNumber = d.SerialNumber,
-                DeviceTypeName = d.DeviceTypeName,
-                Status = d.Status,
-                WarrantyStartDate = d.WarrantyStartDate,
-                WarrantyEndDate = d.WarrantyEndDate,
-                Model = d.Model,
-                DiskType = d.DiskType,
-                DiskSize = d.DiskSize,
-                RamSize = d.RamSize,
-                ProcessorType = d.ProcessorType
-            }).ToList();
-
-            var viewModel = new IndexViewModel
-            {
-                Devices = deviceViewModels,
-                DeviceTypeOptions = await _context.Devices.Select(d => d.DeviceTypeName).Distinct().ToListAsync(),
-                DeviceStatusOptions = await _context.Devices.Select(d => d.Status).Distinct().ToListAsync(),
-                TotalPages = (int)Math.Ceiling(totalDevices / (double)pageSize),
-                SearchTerm = searchTerm,
-                DeviceTypeFilter = deviceTypeFilter,
-                DeviceStatusFilter = deviceStatusFilter,
-                DeviceWarrantyFilter = deviceWarrantyFilter,
-                CurrentPage = currentPage
-            };
-
-            return View(viewModel);
+                _logger.LogError($"Error in Index action: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
@@ -103,32 +123,37 @@ namespace Template.Web.Areas.Admin.Users
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> AddDevice(AddDeviceViewModel model)
+        public async virtual Task<IActionResult> AddDevice(AddDeviceViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var device = new Device
+                {
+                    Id = Guid.NewGuid(),
+                    SerialNumber = model.SerialNumber,
+                    DeviceTypeName = model.DeviceTypeName,
+                    WarrantyStartDate = model.WarrantyStartDate.Value,
+                    WarrantyEndDate = model.WarrantyEndDate.Value,
+                    Status = "Free"
+                };
+
+                _context.Devices.Add(device);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Device added successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error adding device: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while saving the device.");
                 return View(model);
             }
-
-            var device = new Device
-            {
-                Id = Guid.NewGuid(),
-                SerialNumber = model.SerialNumber,
-                DeviceTypeName = model.DeviceTypeName,
-                Status = "Active",
-                WarrantyStartDate = model.WarrantyStartDate,
-                WarrantyEndDate = model.WarrantyEndDate,
-                Model = model.Model,
-                DiskType = model.DiskType,
-                DiskSize = model.DiskSize,
-                RamSize = model.RamSize,
-                ProcessorType = model.ProcessorType
-            };
-
-            _context.Devices.Add(device);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

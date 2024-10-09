@@ -11,28 +11,35 @@
         <div class="col-12 col-md-10 col-lg-8">
             <div class="mt-4 bg-content p-md-5">
                 <h2>Add Device</h2>
-                <form method="post" asp-action="AddDevice">
+                <form id="addDeviceForm" method="post" asp-action="AddDevice">
                     <div class="form-group mb-3">
                         <label for="SerialNumber">Serial Number</label>
-                        <input type="text" class="form-control" id="SerialNumber" name="SerialNumber" required minlength="10" pattern="^[a-zA-Z0-9]+$" />
+                        <input type="text"
+                               class="form-control"
+                               id="SerialNumber"
+                               name="SerialNumber"
+                               required
+                               minlength="10"
+                               pattern="^[a-zA-Z0-9]+$"
+                               title="Serial Number must be at least 10 characters long and can only contain letters and numbers." />
                     </div>
+
                     <div class="form-group mb-3">
-                        <label for="DeviceType">Device Type</label>
-                        <select class="form-control" id="DeviceType" name="DeviceTypeName" required>
+                        <label for="DeviceTypeName">Device Type</label>
+                        <select class="form-control" id="DeviceTypeName" name="DeviceTypeName" required>
                             <option value="" disabled selected>Choose an option</option>
                             <option value="Laptop">Laptop</option>
                             <option value="Phone">Phone</option>
                             <option value="Desktop-PC">Desktop-PC</option>
                         </select>
                     </div>
-                    <div id="dynamic-fields"></div>
                     <div class="form-group mb-3">
                         <label for="WarrantyStartDate">Warranty Start Date</label>
-                        <input type="date" class="form-control" id="WarrantyStartDate" name="DeviceWarranty.StartDate" required />
+                        <input type="date" class="form-control" id="WarrantyStartDate" name="WarrantyStartDate" required />
                     </div>
                     <div class="form-group mb-3">
                         <label for="WarrantyEndDate">Warranty End Date</label>
-                        <input type="date" class="form-control" id="WarrantyEndDate" name="DeviceWarranty.EndDate" required />
+                        <input type="date" class="form-control" id="WarrantyEndDate" name="WarrantyEndDate" required />
                     </div>
                     <button type="submit" class="btn btn-primary">Add Device</button>
                 </form>
