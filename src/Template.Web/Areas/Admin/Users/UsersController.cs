@@ -267,5 +267,33 @@ namespace Template.Web.Areas.Admin.Users
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async virtual Task<IActionResult> ViewDevice(Guid id)
+        {
+            var device = await _context.Devices.FirstOrDefaultAsync(d => d.Id == id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ViewDeviceViewModel
+            {
+                SerialNumber = device.SerialNumber,
+                DeviceTypeName = device.DeviceTypeName,
+                WarrantyStartDate = device.WarrantyStartDate,
+                WarrantyEndDate = device.WarrantyEndDate,
+                Status = device.Status,
+                // Dati dell'utente assegnato
+                AssignedUserFirstName = device.Status == "assigned" ? device.AssignedNome : null,
+                AssignedUserLastName = device.Status == "assigned" ? device.AssignedCognome : null,
+                AssignedUserEmail = device.Status == "assigned" ? device.AssignedEmail : null
+            };
+
+            return View(model);
+        }
+
+
+
     }
 }

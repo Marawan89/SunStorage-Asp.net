@@ -1,0 +1,41 @@
+﻿@model Template.Web.Areas.Admin.Users.ViewDeviceViewModel
+@using Template.Web
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "View Device";
+}
+
+<link rel="stylesheet" href="~/css/site.css">
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="mt-4 bg-content p-md-5">
+                <h2>Device Details</h2>
+                <div>
+                    <strong>Serial Number:</strong> @Model.SerialNumber<br />
+                    <strong>Device Type:</strong> @Model.DeviceTypeName<br />
+                    <strong>Warranty Start Date:</strong> @Model.WarrantyStartDate?.ToString("d")<br />
+                    <strong>Warranty End Date:</strong> @Model.WarrantyEndDate?.ToString("d")<br />
+                    <strong>Status:</strong> @Model.Status<br />
+
+                    @if (Model.Status == "assigned")
+                    {
+                        <h3>Assigned User Details</h3>
+                        <strong>First Name:</strong> @Model.AssignedUserFirstName
+
+                        <br />
+                        <strong>Last Name:</strong> @Model.AssignedUserLastName
+
+                        <br />
+                        <strong>Email:</strong> @Model.AssignedUserEmail
+
+                        <br />
+                    }
+                </div>
+                <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-dark mt-3">Back to Devices</a>
+            </div>
+        </div>
+    </div>
+</div>
