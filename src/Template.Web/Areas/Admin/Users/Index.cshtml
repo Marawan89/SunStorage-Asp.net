@@ -13,12 +13,6 @@
         <div class="col-12 col-md-10 col-lg-8">
             <div class="mt-4 bg-content p-md-5">
                 <a asp-area="Admin" asp-controller="Users" asp-action="AddDevice" class="btn btn-dark mb-2">Add a Device</a>
-
-                @if (Model.Devices.Any(device => device.Status != "assigned"))
-                {
-                    <a asp-area="Admin" asp-controller="Users" asp-action="AssignDevice" class="btn btn-dark mb-2">Assign a Device</a>
-                }
-
                 <!-- Form di ricerca e filtri -->
                 <form asp-controller="Users" asp-action="Index" method="get">
                     <div class="d-flex mb-3">
