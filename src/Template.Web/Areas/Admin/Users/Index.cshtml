@@ -94,9 +94,11 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a href="@Url.Action("EditDevice", "Users", new { id = device.Id })" class="dropdown-item">Edit Device</a>
+                                                    <hr className="dropdown-divider" />
                                                     @if (device.Status != "assigned")
                                                     {
                                                         <a href="@Url.Action("AssignDevice", "Users", new {id = device.Id})" class="dropdown-item">Assign Device</a>
+                                                        <hr className="dropdown-divider" />
                                                     }
                                                     <a href="#" class="dropdown-item" onclick="confirmDeleteDevice('@device.Id')">Delete Device</a>
                                                 </div>
