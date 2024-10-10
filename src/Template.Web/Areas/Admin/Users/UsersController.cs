@@ -246,7 +246,7 @@ namespace Template.Web.Areas.Admin.Users
             device.AssignedEmail = model.Email;
 
             // Cambia lo stato del dispositivo in "assigned"
-            device.Status = "assigned";
+            device.Status = "Assigned";
 
             // Salvataggio dei dati aggiornati
             _context.Devices.Update(device);
@@ -285,9 +285,9 @@ namespace Template.Web.Areas.Admin.Users
                 WarrantyEndDate = device.WarrantyEndDate,
                 Status = device.Status,
                 // Dati dell'utente assegnato
-                AssignedUserFirstName = device.Status == "assigned" ? device.AssignedNome : null,
-                AssignedUserLastName = device.Status == "assigned" ? device.AssignedCognome : null,
-                AssignedUserEmail = device.Status == "assigned" ? device.AssignedEmail : null
+                AssignedUserFirstName = device.Status == "Assigned" ? device.AssignedNome : null,
+                AssignedUserLastName = device.Status == "Assigned" ? device.AssignedCognome : null,
+                AssignedUserEmail = device.Status == "Assigned" ? device.AssignedEmail : null
             };
 
             return View(model);

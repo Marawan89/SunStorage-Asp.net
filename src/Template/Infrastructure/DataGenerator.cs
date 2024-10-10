@@ -62,7 +62,7 @@ public class DataGenerator
             {
                 Id = Guid.NewGuid(),
                 SerialNumber = "SN8975644531456",
-                DeviceTypeName = "Desktop-Pc",
+                DeviceTypeName = "Desktop-PC",
                 Status = "Under repair",
                 WarrantyStartDate = DateTime.Now.AddYears(-2),
                 WarrantyEndDate = DateTime.Now.AddYears(3)
